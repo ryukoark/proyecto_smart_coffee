@@ -1,0 +1,6 @@
+@smartcoffe_HostAddress = http://localhost:5201
+
+GET {{smartcoffe_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
