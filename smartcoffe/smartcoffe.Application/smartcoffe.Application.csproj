@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\ smartcoffe.Domain\smartcoffe.Domain.csproj" />
+      <ProjectReference Include="..\smartcoffe.Infrastructure\smartcoffe.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
