@@ -7,14 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ smartcoffe.Domain\smartcoffe.Domain.csproj" />
       <ProjectReference Include="..\smartcoffe.Infrastructure\smartcoffe.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DTOs\" />
-      <Folder Include="Interfaces\" />
-      <Folder Include="UseCases\" />
+      <Folder Include="Features\" />
     </ItemGroup>
 
 </Project>
