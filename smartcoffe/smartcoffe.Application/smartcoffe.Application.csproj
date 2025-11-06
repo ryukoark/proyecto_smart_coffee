@@ -10,8 +10,4 @@
       <ProjectReference Include="..\smartcoffe.Infrastructure\smartcoffe.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Features\" />
-    </ItemGroup>
-
 </Project>
