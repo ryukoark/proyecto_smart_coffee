@@ -16,4 +16,10 @@
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Category\Commands\" />
+      <Folder Include="Features\Category\DTOs\" />
+      <Folder Include="Features\Category\Queries\" />
+    </ItemGroup>
+
 </Project>
