@@ -10,4 +10,10 @@
       <ProjectReference Include="..\smartcoffe.Infrastructure\smartcoffe.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Category\Commands\" />
+      <Folder Include="Features\Category\DTOs\" />
+      <Folder Include="Features\Category\Queries\" />
+    </ItemGroup>
+
 </Project>
