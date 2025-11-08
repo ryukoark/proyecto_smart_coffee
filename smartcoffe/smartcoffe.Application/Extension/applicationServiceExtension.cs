@@ -5,14 +5,13 @@ using smartcoffe.Application.Promotion.Commands.DeletePromotion;
 using smartcoffe.Application.Promotion.Commands.UpdatePromotion;
 using smartcoffe.Application.Promotion.Queries.PromotionGet;
 using smartcoffe.Application.Promotion.Queries.PromotionGetById;
+using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Extension;
 
-public class applicationServiceExtension
+public static class ProjectServicesExtensions
 {
-    public static class ProjectServicesExtensions
-    {
-        public static void AddProjectServices(IServiceCollection services)
+        public static IServiceCollection AddProjectServices(this IServiceCollection services)
         {
             services.AddMediatR(cfg =>
             {
@@ -23,6 +22,6 @@ public class applicationServiceExtension
                 cfg.RegisterServicesFromAssembly(typeof(getAllPromotionsHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(getPromotionByIdHandler).Assembly);
             });
+            return services;
         }
-    }
 }
