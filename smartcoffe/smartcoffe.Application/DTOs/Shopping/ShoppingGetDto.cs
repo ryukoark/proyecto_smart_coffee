@@ -1,4 +1,4 @@
-namespace smartcoffe.Application.DTOs
+namespace smartcoffe.Application.DTOs.Shopping
 {
     public class ShoppingGetDto
     {

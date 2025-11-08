@@ -1,6 +1,6 @@
-namespace smartcoffe.Application.DTOs
+namespace smartcoffe.Application.DTOs.Shopping
 {
-    public class ShoppingCreateDto
+    public class ShoppingUpdateDto
     {
         public string ProductName { get; set; }
         public decimal Price { get; set; }

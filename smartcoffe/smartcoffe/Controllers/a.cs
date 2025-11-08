@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.DTOs;
+using smartcoffe.Application.DTOs.ShoppingDetail;
 
 namespace smartcoffe.Controllers
 {
@@ -7,24 +8,26 @@ namespace smartcoffe.Controllers
     [Route("api/[controller]")]
     public class ShoppingController : ControllerBase
     {
-        [HttpGet("{id}")]
-        public ActionResult<ShoppingGetDto> GetShopping(int id)
+        [HttpGet("details/{id}")]
+        public ActionResult<ShoppingDetailGetDto> GetShoppingDetail(int id)
         {
-            // Lógica para obtener un shopping
-            return Ok(new ShoppingGetDto
+            // Lógica para obtener un shopping detallado
+            return Ok(new ShoppingDetailGetDto
             {
                 Id = id,
                 ProductName = "Coffee",
                 Price = 5.99m,
-                PurchaseDate = DateTime.Now
+                PurchaseDate = DateTime.Now,
+                BuyerName = "John Doe",
+                PaymentMethod = "Credit Card"
             });
         }
 
-        [HttpPost]
-        public IActionResult CreateShopping([FromBody] ShoppingCreateDto dto)
+        [HttpPost("details")]
+        public IActionResult CreateShoppingDetail([FromBody] ShoppingDetailCreateDto dto)
         {
-            // Lógica para crear un shopping
-            return CreatedAtAction(nameof(GetShopping), new { id = 1 }, dto);
+            // Lógica para crear un shopping detallado
+            return CreatedAtAction(nameof(GetShoppingDetail), new { id = 1 }, dto);
         }
     }
 }
