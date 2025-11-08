@@ -1,10 +1,10 @@
-
 using smartcoffe.Application.Extension;
 using smartcoffe.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.Configuration; 
-using Microsoft.OpenApi.Models; // Necesario para OpenApiInfo
+using Microsoft.OpenApi.Models; 
 using Microsoft.AspNetCore.Builder; 
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc; // Aseguramos este using si lo necesitas
+using smartcoffe.Configuration; // El using para tus extensiones personalizadas
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,10 +17,7 @@ builder.Services.AddProjectServices();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 // ⭐ CONFIGURACIÓN DE SWAGGER ⭐
-// Habilita el explorador de endpoints para generar documentación
 builder.Services.AddEndpointsApiExplorer();
-
-// Define la documentación de Swagger/OpenAPI
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -34,6 +31,10 @@ builder.Services.AddSwaggerGen(c =>
 // Agregar soporte para Controllers
 builder.Services.AddControllers();
 
+// ⭐ LÓGICA DE SERVICIOS PERSONALIZADA (DEBE IR ANTES DE app.Build()) ⭐
+builder.Services.AddAppServices(builder.Configuration, builder.Environment);
+
+
 // --- 2. CONSTRUCCIÓN Y CONFIGURACIÓN DEL PIPELINE ---
 
 var app = builder.Build();
@@ -41,10 +42,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     // ⭐ MIDDLEWARE DE SWAGGER ⭐
-    // Habilita el middleware de Swagger (Genera el archivo JSON de especificación)
     app.UseSwagger();
-
-    // Habilita el middleware de SwaggerUI (La interfaz web interactiva)
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Coffee API V1");
@@ -53,16 +51,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// ⭐ MIDDLEWARE PERSONALIZADO (DEBE IR DESPUÉS DE app.Build()) ⭐
+app.UseApp();
+
 // Mapeo de Endpoints
 app.MapControllers(); 
-
-using smartcoffe.Configuration;
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddAppServices(builder.Configuration, builder.Environment);
-
-var app = builder.Build();
-
-app.UseApp();
 
 app.Run();

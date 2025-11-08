@@ -1,44 +1,27 @@
-namespace smartcoffe.Configuration;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+namespace smartcoffe.Configuration;
+
 public static class ServiceRegistrationExtensions
 {
-
+    // Mantenemos solo la lógica específica de la aplicación que no sea Swagger/Controllers.
+    // Si no hay más lógica, esta función queda vacía, pero debe existir para ser llamada.
     public static void AddAppServices(this IServiceCollection services, ConfigurationManager configuration, IWebHostEnvironment environment)
     {
-        services.AddEndpointsApiExplorer();
-        services.AddControllers();
-
-        services.AddSwaggerGen(c =>
-        {
-            c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-            {
-                Title = "SmartCoffe API",
-                Version = "v1",
-                Description = "API for SmartCoffe project",
-                Contact = new Microsoft.OpenApi.Models.OpenApiContact
-                {
-                    Name = "SmartCoffe",
-                    Email = "support@smartcoffe.local"
-                }
-            });
-
-        });
+        // Nota: La configuración de Swagger y Controllers se ha ELIMINADO de aquí 
+        // y se ha movido al Program.cs para centralizar.
+        // Aquí iría cualquier otro servicio de lógica de negocio o filtros.
     }
 
     public static void UseApp(this WebApplication app)
     {
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+        // Nota: La configuración de Swagger ELIMINADA de aquí y movida a Program.cs.
+        // Mantenemos solo el uso de HttpsRedirection y MapControllers si no están en Program.cs.
 
-        app.UseHttpsRedirection();
-        app.MapControllers();
+        // Dado que Program.cs ya llama a app.UseHttpsRedirection() y app.MapControllers(), 
+        // este método puede estar vacío o contener solo middleware personalizado.
     }
 }

@@ -15,7 +15,6 @@ namespace smartcoffe.Domain.Interfaces
         IGenericRepository<PurchaseHistory> PurchaseHistories { get; }
         IGenericRepository<Shopping> Shoppings { get; }
         IGenericRepository<ShoppingDetail> ShoppingDetails { get; }
-        IGenericRepository<PurchaseHistory> PurchaseHistories { get; }
         Task<int> CompleteAsync();
     }
 }
