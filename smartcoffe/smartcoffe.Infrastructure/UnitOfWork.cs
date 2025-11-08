@@ -13,6 +13,8 @@ namespace smartcoffe.Infrastructure
         private IGenericRepository<Product>? _products;
         private IGenericRepository<Cafe>? _cafes;
         private IGenericRepository<Promotion>? _promotions;
+        private IGenericRepository<Supplier>? _suppliers; // <-- Linea agregada
+
 
         public UnitOfWork(SmartcoffeDbContext context)
         {
@@ -34,6 +36,11 @@ namespace smartcoffe.Infrastructure
         public IGenericRepository<Promotion> Promotions
         {
             get { return _promotions ??= new Repositories.GenericRepository<Promotion>(_context); }
+        }
+        
+        public IGenericRepository<Supplier> Suppliers
+        {
+            get { return _suppliers ??= new Repositories.GenericRepository<Supplier>(_context); }
         }
         
         // Este método ejecuta el SaveChanges de EF Core, guardando la transacción
