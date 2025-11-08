@@ -5,9 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
+    
     <ItemGroup>
-      <ProjectReference Include="..\smartcoffe.Infrastructure\smartcoffe.Infrastructure.csproj" />
+      <Folder Include="Features\Promotion\Commands\" />
+      <Folder Include="Features\Promotion\Queries\" />
     </ItemGroup>
 
 </Project>
