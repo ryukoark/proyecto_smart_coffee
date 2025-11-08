@@ -6,6 +6,6 @@ public class promotionUpdateDTo
     public decimal amount { get; set; }
     public string type { get; set; }
     public DateOnly startDate { get; set; }
-    public DateOnly Enddate { get; set; }
+    public DateOnly endDate { get; set; }
     public bool Status { get; set; }
 }
