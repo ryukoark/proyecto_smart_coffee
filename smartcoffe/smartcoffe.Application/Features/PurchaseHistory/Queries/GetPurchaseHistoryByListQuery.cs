@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace smartcoffe.Application.PurchaseHistory.Queries;
 
-// Simple query that returns all PurchaseHistory records (mapped to DTOs)
 public class GetPurchaseHistoryByListQuery : IRequest<IEnumerable<PurchaseHistoryListDto>>
 {
 }
@@ -23,7 +22,6 @@ internal sealed class GetPurchaseHistoryByListQueryHandler : IRequestHandler<Get
 	{
 		var all = await _unitOfWork.PurchaseHistories.GetAllAsync();
 
-		// Map domain entities to DTOs in memory. This returns every purchase history (no filters).
 		var list = all.Select(e => new PurchaseHistoryListDto
 		{
 			Id = e.Id,
