@@ -17,6 +17,8 @@ namespace smartcoffe.Domain.Interfaces
         IGenericRepository<Cafe> Cafes { get; }
         // IGenericRepository<User> Users { get; }
         // IGenericRepository<Inventory> Inventories { get; }
+        
+        IGenericRepository<Promotion> Promotions { get; }
 
         // 2. El método clave para guardar todos los cambios en la transacción.
         Task<int> CompleteAsync();

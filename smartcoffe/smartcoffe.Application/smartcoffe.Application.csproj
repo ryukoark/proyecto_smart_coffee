@@ -7,11 +7,6 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <Folder Include="Features\Promotion\Commands\" />
-      <Folder Include="Features\Promotion\Queries\" />
-    </ItemGroup>
-    
-    <ItemGroup>
       <PackageReference Include="MediatR" Version="13.1.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     </ItemGroup>
@@ -20,6 +15,10 @@
       <Folder Include="Features\Category\Commands\" />
       <Folder Include="Features\Category\DTOs\" />
       <Folder Include="Features\Category\Queries\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\smartcoffe.Domain\smartcoffe.Domain.csproj" />
     </ItemGroup>
 
 </Project>
