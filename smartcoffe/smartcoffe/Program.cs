@@ -1,3 +1,4 @@
+
 using smartcoffe.Application.Extension;
 using smartcoffe.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.Configuration; 
@@ -54,5 +55,14 @@ app.UseHttpsRedirection();
 
 // Mapeo de Endpoints
 app.MapControllers(); 
+
+using smartcoffe.Configuration;
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAppServices(builder.Configuration, builder.Environment);
+
+var app = builder.Build();
+
+app.UseApp();
 
 app.Run();

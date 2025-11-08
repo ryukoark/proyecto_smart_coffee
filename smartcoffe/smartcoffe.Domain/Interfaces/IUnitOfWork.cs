@@ -12,13 +12,10 @@ namespace smartcoffe.Domain.Interfaces
         IGenericRepository<Inventory> Inventories { get; } 
         IGenericRepository<Promotion> Promotions { get; }
         IGenericRepository<Supplier> Suppliers { get; }
-
         IGenericRepository<PurchaseHistory> PurchaseHistories { get; }
-        
         IGenericRepository<Shopping> Shoppings { get; }
-        
         IGenericRepository<ShoppingDetail> ShoppingDetails { get; }
-
+        IGenericRepository<PurchaseHistory> PurchaseHistories { get; }
         Task<int> CompleteAsync();
     }
 }

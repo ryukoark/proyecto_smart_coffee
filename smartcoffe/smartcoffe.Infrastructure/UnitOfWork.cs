@@ -20,7 +20,7 @@ namespace smartcoffe.Infrastructure
         private IGenericRepository<PurchaseHistory>? _purchaseHistories;
         private IGenericRepository<Shopping>? _shoppings;
         private IGenericRepository<ShoppingDetail>? _shoppingDetails;
-
+        private IGenericRepository<PurchaseHistory>? _purchaseHistories;
 
         public UnitOfWork(SmartcoffeDbContext context)
         {
@@ -69,7 +69,13 @@ namespace smartcoffe.Infrastructure
         {
             get { return _shoppingDetails ??= new GenericRepository<ShoppingDetail>(_context); }
         }
+
+        public IGenericRepository<PurchaseHistory> PurchaseHistories
+        {
+            get { return _purchaseHistories ??= new Repositories.GenericRepository<PurchaseHistory>(_context); }
+        }
         
+        // Este método ejecuta el SaveChanges de EF Core, guardando la transacción
         public async Task<int> CompleteAsync()
         {
             return await _context.SaveChangesAsync();
