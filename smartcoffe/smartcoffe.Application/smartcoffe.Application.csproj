@@ -22,4 +22,8 @@
       <Folder Include="Features\Category\Queries\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\smartcoffe.Domain\smartcoffe.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

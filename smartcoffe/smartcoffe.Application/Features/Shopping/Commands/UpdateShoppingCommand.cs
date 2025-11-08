@@ -1,5 +1,6 @@
 using MediatR;
 using smartcoffe.Application.DTOs.Shopping;
+using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Features.Shopping.Commands
 {
@@ -26,13 +27,13 @@ namespace smartcoffe.Application.Features.Shopping.Commands
 
         public async Task<bool> Handle(UpdateShoppingCommand request, CancellationToken cancellationToken)
         {
-            var shopping = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var shopping = await _unitOfWork.Shoppings.GetByIdAsync(request.Id);
             if (shopping == null) return false;
 
             shopping.Total = request.Shopping.Price;
             shopping.Promotion = request.Shopping.ProductName;
 
-            _unitOfWork.Products.Update(shopping);
+            _unitOfWork.Shoppings.Update(shopping);
             await _unitOfWork.CompleteAsync();
 
             return true;

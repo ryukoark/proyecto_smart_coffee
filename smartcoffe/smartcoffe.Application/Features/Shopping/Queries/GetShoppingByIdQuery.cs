@@ -1,5 +1,6 @@
 using MediatR;
 using smartcoffe.Application.DTOs.Shopping;
+using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Features.Shopping.Queries
 {
@@ -24,7 +25,7 @@ namespace smartcoffe.Application.Features.Shopping.Queries
 
         public async Task<ShoppingGetDto> Handle(GetShoppingByIdQuery request, CancellationToken cancellationToken)
         {
-            var shopping = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var shopping = await _unitOfWork.Shoppings.GetByIdAsync(request.Id);
             if (shopping == null) return null;
 
             return new ShoppingGetDto

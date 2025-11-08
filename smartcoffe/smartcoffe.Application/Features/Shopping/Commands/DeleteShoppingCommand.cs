@@ -1,4 +1,5 @@
 using MediatR;
+using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Features.Shopping.Commands
 {

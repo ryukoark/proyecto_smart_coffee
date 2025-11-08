@@ -1,4 +1,5 @@
 using MediatR;
+using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Features.ShoppingDetail.Commands
 {
@@ -23,10 +24,10 @@ namespace smartcoffe.Application.Features.ShoppingDetail.Commands
 
         public async Task<bool> Handle(DeleteShoppingDetailCommand request, CancellationToken cancellationToken)
         {
-            var shoppingDetail = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var shoppingDetail = await _unitOfWork.ShoppingDetails.GetByIdAsync(request.Id);
             if (shoppingDetail == null) return false;
 
-            _unitOfWork.Products.Remove(shoppingDetail);
+            _unitOfWork.ShoppingDetails.Remove(shoppingDetail);
             await _unitOfWork.CompleteAsync();
 
             return true;

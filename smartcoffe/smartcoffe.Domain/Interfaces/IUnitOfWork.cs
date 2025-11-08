@@ -12,6 +12,8 @@ namespace smartcoffe.Domain.Interfaces
         // Repositorios Específicos (utilizando el IGenericRepository<T>)
         // Por ejemplo, para la entidad Product:
         IGenericRepository<Product> Products { get; }
+        IGenericRepository<Shopping> Shoppings { get; }
+        IGenericRepository<ShoppingDetail> ShoppingDetails { get; }
 
         // Puedes añadir más entidades aquí:
         IGenericRepository<Cafe> Cafes { get; }

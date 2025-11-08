@@ -1,6 +1,7 @@
 using smartcoffe.Domain.Interfaces;
 using smartcoffe.Domain.Entities;
-using smartcoffe.Infrastructure.Persistence; // Tu DbContext
+using smartcoffe.Infrastructure.Persistence;
+using smartcoffe.Infrastructure.Repositories; // Tu DbContext
 
 namespace smartcoffe.Infrastructure
 {
@@ -11,6 +12,8 @@ namespace smartcoffe.Infrastructure
 
         // Propiedades de Repositorios (lazy-loading en la inicialización)
         private IGenericRepository<Product>? _products;
+        private IGenericRepository<Shopping>? _shoppings;
+        private IGenericRepository<ShoppingDetail>? _shoppingDetails;
         private IGenericRepository<Cafe>? _cafes;
 
         public UnitOfWork(SmartcoffeDbContext context)
@@ -24,6 +27,9 @@ namespace smartcoffe.Infrastructure
             get { return _products ??= new Repositories.GenericRepository<Product>(_context); }
         }
         
+        public IGenericRepository<Shopping> Shoppings => _shoppings ??= new GenericRepository<Shopping>(_context);
+        public IGenericRepository<ShoppingDetail> ShoppingDetails => _shoppingDetails ??= new GenericRepository<ShoppingDetail>(_context);
+
         // Implementación de la propiedad Cafes
         public IGenericRepository<Cafe> Cafes
         {

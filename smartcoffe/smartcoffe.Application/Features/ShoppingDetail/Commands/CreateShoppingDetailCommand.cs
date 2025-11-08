@@ -1,5 +1,6 @@
 using MediatR;
 using smartcoffe.Application.DTOs.ShoppingDetail;
+using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Features.ShoppingDetail.Commands
 {
@@ -32,7 +33,7 @@ namespace smartcoffe.Application.Features.ShoppingDetail.Commands
                 Status = true
             };
 
-            await _unitOfWork.Products.AddAsync(shoppingDetail);
+            await _unitOfWork.ShoppingDetails.AddAsync(shoppingDetail);
             await _unitOfWork.CompleteAsync();
 
             return shoppingDetail.Id;
