@@ -1,6 +1,7 @@
 using smartcoffe.Domain.Interfaces;
 using smartcoffe.Domain.Entities;
-using smartcoffe.Infrastructure.Persistence; // Tu DbContext
+using smartcoffe.Infrastructure.Persistence;
+using smartcoffe.Infrastructure.Repositories; // Tu DbContext
 
 namespace smartcoffe.Infrastructure
 {
@@ -13,7 +14,10 @@ namespace smartcoffe.Infrastructure
         private IGenericRepository<Product>? _products;
         private IGenericRepository<Cafe>? _cafes;
         private IGenericRepository<Promotion>? _promotions;
+
         private IGenericRepository<Supplier>? _suppliers; // <-- Linea agregada
+
+        private IGenericRepository<Category>? _categories;
 
 
         public UnitOfWork(SmartcoffeDbContext context)
@@ -25,6 +29,10 @@ namespace smartcoffe.Infrastructure
         public IGenericRepository<Product> Products
         {
             get { return _products ??= new Repositories.GenericRepository<Product>(_context); }
+        }
+        public IGenericRepository<Category> Categories
+        {
+            get { return _categories ??= new GenericRepository<Category>(_context); }
         }
         
         // Implementación de la propiedad Cafes
