@@ -9,13 +9,18 @@
     <ItemGroup>
       <Folder Include="Features\Promotion\Commands\" />
       <Folder Include="Features\Promotion\Queries\" />
-      <Folder Include="Features\PurchaseHistory\Commands\" />
-      <Folder Include="Features\PurchaseHistory\Queries\" />
+      <Folder Include="Features\PurchaseHistory\DTOs\" />
     </ItemGroup>
     
     <ItemGroup>
       <PackageReference Include="MediatR" Version="13.1.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
+    </ItemGroup>
+
+    <!-- Project references to other solution projects so Application can see Domain and Infrastructure -->
+    <ItemGroup>
+      <ProjectReference Include="..\smartcoffe.Domain\smartcoffe.Domain.csproj" />
+      <ProjectReference Include="..\smartcoffe.Infrastructure\smartcoffe.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

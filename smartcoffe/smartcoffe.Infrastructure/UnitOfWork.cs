@@ -12,6 +12,7 @@ namespace smartcoffe.Infrastructure
         // Propiedades de Repositorios (lazy-loading en la inicialización)
         private IGenericRepository<Product>? _products;
         private IGenericRepository<Cafe>? _cafes;
+        private IGenericRepository<PurchaseHistory>? _purchaseHistories;
 
         public UnitOfWork(SmartcoffeDbContext context)
         {
@@ -28,6 +29,11 @@ namespace smartcoffe.Infrastructure
         public IGenericRepository<Cafe> Cafes
         {
             get { return _cafes ??= new Repositories.GenericRepository<Cafe>(_context); }
+        }
+        
+        public IGenericRepository<PurchaseHistory> PurchaseHistories
+        {
+            get { return _purchaseHistories ??= new Repositories.GenericRepository<PurchaseHistory>(_context); }
         }
         
         // Este método ejecuta el SaveChanges de EF Core, guardando la transacción

@@ -15,6 +15,7 @@ namespace smartcoffe.Domain.Interfaces
 
         // Puedes añadir más entidades aquí:
         IGenericRepository<Cafe> Cafes { get; }
+        IGenericRepository<PurchaseHistory> PurchaseHistories { get; }
         // IGenericRepository<User> Users { get; }
         // IGenericRepository<Inventory> Inventories { get; }
 
