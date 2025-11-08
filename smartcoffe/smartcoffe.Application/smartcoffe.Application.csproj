@@ -9,6 +9,8 @@
     <ItemGroup>
       <Folder Include="Features\Promotion\Commands\" />
       <Folder Include="Features\Promotion\Queries\" />
+      <Folder Include="Features\PurchaseHistory\Commands\" />
+      <Folder Include="Features\PurchaseHistory\Queries\" />
     </ItemGroup>
     
     <ItemGroup>
