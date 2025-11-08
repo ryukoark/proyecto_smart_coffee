@@ -1,19 +1,20 @@
 using MediatR;
+using smartcoffe.Application.Features.Promotion.DTos;
 using smartcoffe.Application.Promotion.DTos;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Promotion.Queries.PromotionGetById;
+namespace smartcoffe.Application.Features.Promotion.Queries.GetByIdPromotion;
 
-public class getPromotionByIdHandler : IRequestHandler<getPromotionByIdQuery, promotionDTo>
+public class GetPromotionByIdHandler : IRequestHandler<GetPromotionByIdQuery, PromotionDTo>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public getPromotionByIdHandler(IUnitOfWork unitOfWork)
+    public GetPromotionByIdHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<promotionDTo> Handle(getPromotionByIdQuery request, CancellationToken cancellationToken)
+    public async Task<PromotionDTo> Handle(GetPromotionByIdQuery request, CancellationToken cancellationToken)
     {
         var promotion = await _unitOfWork.Promotions.GetByIdAsync(request.Id);
 
@@ -22,7 +23,7 @@ public class getPromotionByIdHandler : IRequestHandler<getPromotionByIdQuery, pr
             throw new KeyNotFoundException($"Promotion with ID {request.Id} not found or inactive.");
         }
         
-        var dto = new promotionDTo
+        var dto = new PromotionDTo
         {
             name = promotion.Name,
             amount = promotion.Amount ?? 0, // por si es null

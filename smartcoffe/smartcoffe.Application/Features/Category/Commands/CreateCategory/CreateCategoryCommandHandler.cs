@@ -1,8 +1,10 @@
 using MediatR;
+using smartcoffe.Domain.Entities;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Category.Commands
+namespace smartcoffe.Application.Features.Category.Commands.CreateCategory
 {
+    // El Handler debe devolver un int (el Id de la nueva categoría)
     public class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, int>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -14,22 +16,24 @@ namespace smartcoffe.Application.Features.Category.Commands
 
         public async Task<int> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
-            // Mapeo directo de Command a Entidad de Dominio
-            var categoryEntity = new smartcoffe.Domain.Entities.Category
+            // 1. Mapeo de Command a Entidad de Dominio
+            var category = new Domain.Entities.Category
             {
                 Name = request.Name,
                 Description = request.Description,
-                Status = request.Status
+                Status = request.Status,
+                // Agrega cualquier otra propiedad necesaria (ej: CreatedAt, UpdatedAt)
             };
 
-            // Agregar la entidad al repositorio
-            await _unitOfWork.Categories.AddAsync(categoryEntity);
-            
-            // Guardar los cambios en la base de datos a través del Unit of Work
+            // 2. Agregar la entidad al repositorio
+            // El repositorio Categories debe haber sido definido en IUnitOfWork y UnitOfWork.
+            await _unitOfWork.Categories.AddAsync(category);
+
+            // 3. Guardar cambios en la base de datos (Ejecutar transacción)
             await _unitOfWork.CompleteAsync();
 
-            // Retornar el ID generado de la nueva categoría
-            return categoryEntity.Id;
+            // 4. Retornar el ID generado por la base de datos (PostgreSQL/EF Core)
+            return category.Id;
         }
     }
 }

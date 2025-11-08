@@ -1,8 +1,7 @@
 using MediatR;
-using smartcoffe.Application.Features.Category.Commands.UpdateCategory;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Category.Commands
+namespace smartcoffe.Application.Features.Category.Commands.UpdateCategory
 {
     public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryCommand, bool>
     {

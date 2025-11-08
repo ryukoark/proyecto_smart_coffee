@@ -1,9 +1,10 @@
 using MediatR;
+using smartcoffe.Application.Features.Promotion.Commands.UpdatePromotion;
 using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Promotion.Commands.UpdatePromotion;
 
-public class updatePromotionHandler : IRequestHandler<updatePromotionCommand>
+public class updatePromotionHandler : IRequestHandler<UpdatePromotionCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -12,7 +13,7 @@ public class updatePromotionHandler : IRequestHandler<updatePromotionCommand>
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(updatePromotionCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
     {
         var existingPromotion = await _unitOfWork.Promotions.GetByIdAsync(request.Id);
         if (existingPromotion == null)

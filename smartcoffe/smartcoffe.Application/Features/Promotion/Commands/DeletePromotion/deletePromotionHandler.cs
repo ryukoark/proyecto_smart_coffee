@@ -1,18 +1,18 @@
 using MediatR;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Promotion.Commands.DeletePromotion;
+namespace smartcoffe.Application.Features.Promotion.Commands.DeletePromotion;
 
-public class deletePromotionHandler : IRequestHandler<deletePromotionCommand>
+public class DeletePromotionHandler : IRequestHandler<DeletePromotionCommand>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public deletePromotionHandler(IUnitOfWork unitOfWork)
+    public DeletePromotionHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(deletePromotionCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeletePromotionCommand request, CancellationToken cancellationToken)
     {
         var promotion = await _unitOfWork.Promotions.GetByIdAsync(request.Id);
 

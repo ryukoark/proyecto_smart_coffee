@@ -1,11 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Promotion.Commands.CreatePromotion;
-using smartcoffe.Application.Promotion.Commands.DeletePromotion;
-using smartcoffe.Application.Promotion.Commands.UpdatePromotion;
+using smartcoffe.Application.Features.Promotion.Commands.CreatePromotion;
+using smartcoffe.Application.Features.Promotion.Commands.DeletePromotion;
+using smartcoffe.Application.Features.Promotion.Commands.UpdatePromotion;
+using smartcoffe.Application.Features.Promotion.DTos;
+using smartcoffe.Application.Features.Promotion.Queries.GetByIdPromotion;
+using smartcoffe.Application.Features.Promotion.Queries.GetPromotion;
 using smartcoffe.Application.Promotion.DTos;
-using smartcoffe.Application.Promotion.Queries.PromotionGet;
-using smartcoffe.Application.Promotion.Queries.PromotionGetById;
 
 namespace smartcoffe.Controllers;
 
@@ -21,9 +22,9 @@ public class PromotionController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] promotionCreateDTo dto)
+    public async Task<IActionResult> Create([FromBody] PromotionCreateDTo dto)
     {
-        await _mediator.Send(new createPromotionCommand(dto));
+        await _mediator.Send(new CreatePromotionCommand(dto));
         return Ok(new { message = "Promotion created successfully" });
     }
 
@@ -31,28 +32,28 @@ public class PromotionController : ControllerBase
     public async Task<IActionResult> Update(int id, [FromBody] promotionUpdateDTo dto)
     {
         dto.id = id;
-        await _mediator.Send(new updatePromotionCommand(id, dto));
+        await _mediator.Send(new UpdatePromotionCommand(id, dto));
         return Ok(new { message = "Promotion updated successfully" });
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var result = await _mediator.Send(new getAllPromotionsQuery());
+        var result = await _mediator.Send(new GetAllPromotionsQuery());
         return Ok(result);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var result = await _mediator.Send(new getPromotionByIdQuery(id));
+        var result = await _mediator.Send(new GetPromotionByIdQuery(id));
         return Ok(result);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> SoftDelete(int id)
     {
-        await _mediator.Send(new deletePromotionCommand(id));
+        await _mediator.Send(new DeletePromotionCommand(id));
         return Ok(new { message = "Promotion disabled (soft deleted)" });
     }
     

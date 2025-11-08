@@ -1,19 +1,19 @@
 using MediatR;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Promotion.Commands.CreatePromotion;
+namespace smartcoffe.Application.Features.Promotion.Commands.CreatePromotion;
 
-public class createPromotionHandler : IRequestHandler<createPromotionCommand>
+public class CreatePromotionHandler : IRequestHandler<CreatePromotionCommand>
 {
     
     private readonly IUnitOfWork _unitOfWork;
 
-    public createPromotionHandler(IUnitOfWork unitOfWork)
+    public CreatePromotionHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
     
-    public async Task Handle(createPromotionCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreatePromotionCommand request, CancellationToken cancellationToken)
     {
         var dto = request.Promotion;
         var random = new Random();

@@ -1,7 +1,7 @@
 using MediatR;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Category.Commands
+namespace smartcoffe.Application.Features.Category.Commands.DeleteCategory
 {
     public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, bool>
     {

@@ -1,6 +1,7 @@
 using MediatR;
+using smartcoffe.Application.Features.Promotion.DTos;
 using smartcoffe.Application.Promotion.DTos;
 
-namespace smartcoffe.Application.Promotion.Commands.CreatePromotion;
+namespace smartcoffe.Application.Features.Promotion.Commands.CreatePromotion;
 
-public record createPromotionCommand(promotionCreateDTo Promotion) : IRequest;
+public record CreatePromotionCommand(PromotionCreateDTo Promotion) : IRequest;

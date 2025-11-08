@@ -4,8 +4,8 @@ using smartcoffe.Application.Features.Product.Commands.CreateProduct;
 using smartcoffe.Application.Features.Product.Commands.DeleteProduct;
 using smartcoffe.Application.Features.Product.Commands.UpdateProduct;
 using smartcoffe.Application.Features.Product.DTOs;
-using smartcoffe.Application.Features.Product.Queries.GetByIdProduct;
-using smartcoffe.Application.Features.Product.Queries.GetProduct;
+using smartcoffe.Application.Features.Product.Queries.GetAllProducts;
+using smartcoffe.Application.Features.Product.Queries.GetProductById;
 
 namespace smartcoffe.Controllers
 {

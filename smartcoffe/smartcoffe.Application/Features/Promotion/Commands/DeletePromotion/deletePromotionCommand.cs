@@ -1,5 +1,5 @@
 using MediatR;
 
-namespace smartcoffe.Application.Promotion.Commands.DeletePromotion;
+namespace smartcoffe.Application.Features.Promotion.Commands.DeletePromotion;
 
-public record deletePromotionCommand(int Id) : IRequest;
+public record DeletePromotionCommand(int Id) : IRequest;

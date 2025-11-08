@@ -1,25 +1,26 @@
 using MediatR;
+using smartcoffe.Application.Features.Promotion.DTos;
 using smartcoffe.Application.Promotion.DTos;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Promotion.Queries.PromotionGet;
+namespace smartcoffe.Application.Features.Promotion.Queries.GetPromotion;
 
-public class getAllPromotionsHandler : IRequestHandler<getAllPromotionsQuery, IEnumerable<promotionDTo>>
+public class GetAllPromotionsHandler : IRequestHandler<GetAllPromotionsQuery, IEnumerable<PromotionDTo>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public getAllPromotionsHandler(IUnitOfWork unitOfWork)
+    public GetAllPromotionsHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<promotionDTo>> Handle(getAllPromotionsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<PromotionDTo>> Handle(GetAllPromotionsQuery request, CancellationToken cancellationToken)
     {
         var promotions = await _unitOfWork.Promotions.GetAllAsync();
 
         var activePromotions = promotions
             .Where(p => p.Status == true)
-            .Select(p => new promotionDTo
+            .Select(p => new PromotionDTo
             {
                 name = p.Name,
                 amount = p.Amount ?? 0,

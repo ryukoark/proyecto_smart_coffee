@@ -1,6 +1,6 @@
-namespace smartcoffe.Application.Promotion.DTos;
+namespace smartcoffe.Application.Features.Promotion.DTos;
 
-public class promotionDTo
+public class PromotionDTo
 {
     public string name { get; set; }
     public decimal amount { get; set; }

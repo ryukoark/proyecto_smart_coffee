@@ -2,7 +2,7 @@ using MediatR;
 using smartcoffe.Application.Features.Product.DTOs;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Product.Queries.GetProduct
+namespace smartcoffe.Application.Features.Product.Queries.GetAllProducts
 {
     public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<ProductListDto>>
     {

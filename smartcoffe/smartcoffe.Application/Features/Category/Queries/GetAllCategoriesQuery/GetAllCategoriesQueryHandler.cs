@@ -1,8 +1,8 @@
 using MediatR;
-using smartcoffe.Application.DTOs;
+using smartcoffe.Application.Features.Category.DTOs;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Category.Queries
+namespace smartcoffe.Application.Features.Category.Queries.GetAllCategoriesQuery
 {
     public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery, IEnumerable<CategoryDto>>
     {
@@ -13,7 +13,7 @@ namespace smartcoffe.Application.Features.Category.Queries
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IEnumerable<CategoryDto>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<CategoryDto>> Handle(Queries.GetAllCategoriesQuery.GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
             var categories = await _unitOfWork.Categories.GetAllAsync();
 

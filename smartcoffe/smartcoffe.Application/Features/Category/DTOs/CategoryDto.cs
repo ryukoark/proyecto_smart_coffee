@@ -1,4 +1,4 @@
-namespace smartcoffe.Application.DTOs
+namespace smartcoffe.Application.Features.Category.DTOs
 {
     public class CategoryDto
     {

@@ -2,7 +2,7 @@ using MediatR;
 using smartcoffe.Application.Features.Product.DTOs;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Product.Queries.GetByIdProduct
+namespace smartcoffe.Application.Features.Product.Queries.GetProductById
 {
     public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, ProductDto>
     {

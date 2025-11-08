@@ -1,9 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.DTOs;
-using smartcoffe.Application.Features.Category.Commands;
+using smartcoffe.Application.Features.Category.Commands.CreateCategory;
+using smartcoffe.Application.Features.Category.Commands.DeleteCategory;
 using smartcoffe.Application.Features.Category.Commands.UpdateCategory;
-using smartcoffe.Application.Features.Category.Queries;
+using smartcoffe.Application.Features.Category.DTOs;
+using smartcoffe.Application.Features.Category.Queries.GetAllCategoriesQuery;
+using smartcoffe.Application.Features.Category.Queries.GetCategoryByIdQuery;
 
 namespace smartcoffe.Controllers
 {
@@ -33,11 +35,6 @@ namespace smartcoffe.Controllers
         {
             var query = new GetCategoryByIdQuery { Id = id };
             var category = await _mediator.Send(query);
-
-            if (category == null)
-            {
-                return NotFound();
-            }
 
             return Ok(category);
         }
