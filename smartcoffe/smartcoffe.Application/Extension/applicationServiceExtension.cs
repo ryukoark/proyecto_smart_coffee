@@ -5,6 +5,10 @@ using smartcoffe.Application.Features.Category.Commands.DeleteCategory;
 using smartcoffe.Application.Features.Category.Commands.UpdateCategory;
 using smartcoffe.Application.Features.Category.Queries.GetAllCategoriesQuery;
 using smartcoffe.Application.Features.Category.Queries.GetCategoryByIdQuery;
+using smartcoffe.Application.Features.Product.Commands.CreateProduct;
+using smartcoffe.Application.Features.Product.Commands.DeleteProduct;
+using smartcoffe.Application.Features.Product.Commands.UpdateProduct;
+using smartcoffe.Application.Features.Product.Queries.GetProductById;
 using smartcoffe.Application.Features.Promotion.Commands.CreatePromotion;
 using smartcoffe.Application.Features.Promotion.Commands.DeletePromotion;
 using smartcoffe.Application.Features.Promotion.Queries.GetByIdPromotion;
@@ -35,6 +39,14 @@ public static class ProjectServicesExtensions
                 // Queries
                 cfg.RegisterServicesFromAssembly(typeof(GetAllCategoriesQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetCategoryByIdQueryHandler).Assembly);
+                // --- Handlers de Producto (Añadidos) ---
+                // Commands
+                cfg.RegisterServicesFromAssembly(typeof(CreateProductHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(DeleteProductHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(UpdateProductHandler).Assembly);
+            
+                // Queries
+                cfg.RegisterServicesFromAssembly(typeof(GetProductByIdHandler).Assembly);
             });
             return services;
         }

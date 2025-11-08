@@ -1,43 +1,58 @@
 using smartcoffe.Application.Extension;
-// Asegúrate de que este using esté apuntando al namespace correcto donde definiste AddInfrastructure
-using smartcoffe.Infrastructure.DependencyInjection; 
-// Necesario para IConfiguration que se usa en AddInfrastructure
+using smartcoffe.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.Configuration; 
+using Microsoft.OpenApi.Models; // Necesario para OpenApiInfo
+using Microsoft.AspNetCore.Builder; 
+using Microsoft.AspNetCore.Mvc; 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Configuración de Servicios (Dependency Injection) ---
+// --- 1. CONFIGURACIÓN DE SERVICIOS (Dependency Injection) ---
 
-// Llama al registro de la capa de Aplicación (MediatR, etc.)
+// Llama al registro de la capa de Aplicación (MediatR y Handlers)
 builder.Services.AddProjectServices();
 
-// ⭐ CORRECCIÓN CLAVE ⭐
-// Llama al registro de la capa de Infraestructura, 
-// pasándole la configuración (builder.Configuration) para que AddInfrastructure
-// pueda configurar el DbContext de PostgreSQL.
+// Llama al registro de Infraestructura (DbContext de PostgreSQL y UnitOfWork)
 builder.Services.AddInfrastructure(builder.Configuration);
 
-// ... el resto de las llamadas de servicios
-builder.Services.AddOpenApi();
+// ⭐ CONFIGURACIÓN DE SWAGGER ⭐
+// Habilita el explorador de endpoints para generar documentación
+builder.Services.AddEndpointsApiExplorer();
+
+// Define la documentación de Swagger/OpenAPI
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Smart Coffee API",
+        Version = "v1",
+        Description = "API para la gestión de categorías, productos y promociones en Smart Coffee."
+    });
+});
+
+// Agregar soporte para Controllers
 builder.Services.AddControllers();
 
-// --- Construcción y Configuración del Pipeline ---
+// --- 2. CONSTRUCCIÓN Y CONFIGURACIÓN DEL PIPELINE ---
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    // ⭐ MIDDLEWARE DE SWAGGER ⭐
+    // Habilita el middleware de Swagger (Genera el archivo JSON de especificación)
+    app.UseSwagger();
+
+    // Habilita el middleware de SwaggerUI (La interfaz web interactiva)
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Smart Coffee API V1");
+    });
 }
 
 app.UseHttpsRedirection();
 
-// Nota: Las siguientes líneas son el ejemplo de WebApp template
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-// ... Mapeo de Endpoints y Middleware
+// Mapeo de Endpoints
+app.MapControllers(); 
 
 app.Run();
