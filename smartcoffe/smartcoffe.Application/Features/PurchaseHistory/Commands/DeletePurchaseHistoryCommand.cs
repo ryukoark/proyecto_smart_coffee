@@ -18,7 +18,8 @@ internal sealed class DeletePurchaseHistoryCommandHandler : IRequestHandler<Dele
 		var entity = await _unitOfWork.PurchaseHistories.GetByIdAsync(id);
 		if (entity == null) throw new KeyNotFoundException($"PurchaseHistory with id {id} not found.");
 
-		_unitOfWork.PurchaseHistories.Remove(entity);
+		entity.Status = false;
+		_unitOfWork.PurchaseHistories.Update(entity);
 		await _unitOfWork.CompleteAsync();
 
 		return Unit.Value;

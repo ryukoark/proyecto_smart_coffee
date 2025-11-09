@@ -16,31 +16,25 @@ public class PurchaseHistoryController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] PurchaseHistoryCreateDto dto, CancellationToken cancellationToken)
     {
-        var id = await _mediator.Send(new CreatePurchaseHistoryCommand(dto), cancellationToken);
-        return CreatedAtAction(nameof(GetById), new { id }, id);
+        // Envía el comando al handler de CreatePurchaseHistory
+        await _mediator.Send(new CreatePurchaseHistoryCommand(dto), cancellationToken);
+        return Ok(new { message = "PurchaseHistory creado exitosamente" });
     }
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PurchaseHistoryUpdateDto dto, CancellationToken cancellationToken)
     {
-        dto.Id = id;
-        await _mediator.Send(new UpdatePurchaseHistoryCommand(dto), cancellationToken);
-        return NoContent();
-    }
-
-    [HttpPatch("{id:int}/status")]
-    public async Task<IActionResult> UpdateStatus([FromRoute] int id, [FromBody] PurchaseHistoryStatusUpdateDto dto, CancellationToken cancellationToken)
-    {
-        dto.Id = id;
-        await _mediator.Send(new UpdatePurchaseHistoryStatusCommand(dto), cancellationToken);
-        return NoContent();
+        // Use route id as the resource identifier; DTO does not carry Id or Status.
+        await _mediator.Send(new UpdatePurchaseHistoryCommand(id, dto), cancellationToken);
+        return Ok(new { message = "PurchaseHistory actualizado exitosamente" });
     }
 
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {
+        // Envía el comando al handler de DeletePurchaseHistory (soft/hard según implementación)
         await _mediator.Send(new DeletePurchaseHistoryCommand(new PurchaseHistoryDeleteDto { Id = id }), cancellationToken);
-        return NoContent();
+        return Ok(new { message = "PurchaseHistory eliminado/deshabilitado exitosamente" });
     }
 
     [HttpGet]
@@ -53,8 +47,9 @@ public class PurchaseHistoryController : ControllerBase
     [HttpGet("{id:int}")]
     public async Task<IActionResult> GetById([FromRoute] int id, CancellationToken cancellationToken)
     {
+        // Envía el query al handler de GetPurchaseHistoryById
         var result = await _mediator.Send(new GetPurchaseHistoryByIdQuery { Id = id }, cancellationToken);
-        return result is null ? NotFound() : Ok(result);
+        return Ok(result);
     }
 }
     
