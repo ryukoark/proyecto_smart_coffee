@@ -1,12 +1,11 @@
-namespace smartcoffe.Application.Promotion.DTos;
+namespace smartcoffe.Application.Features.Promotion.DTos;
 
-public class promotionCreateDTo
+public class PromotionCreateDTo
 {
-    public int Id { get; set; }
     public string Name { get; set; }
     public decimal Amount { get; set; }
     public string type { get; set; }
     public DateOnly startDate { get; set; }
-    public DateOnly Enddate { get; set; }
+    public DateOnly endDate { get; set; }
     public bool Status { get; set; } = true;
 }

@@ -12,4 +12,7 @@ obj/
 # Logs
 *.log
 
+# JetBrains/IntelliJ IDEs
+**/.idea/
+
 https://github.com/github/gitignore/blob/main/VisualStudio.gitignore

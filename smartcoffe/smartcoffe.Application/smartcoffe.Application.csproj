@@ -7,8 +7,10 @@
     </PropertyGroup>
     
     <ItemGroup>
+
       <Folder Include="Features\Promotion\Commands\" />
       <Folder Include="Features\Promotion\Queries\" />
+      <Folder Include="Features\PurchaseHistory\DTOs\" />
     </ItemGroup>
     
     <ItemGroup>
@@ -16,10 +18,14 @@
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     </ItemGroup>
 
+    <!-- Project references to other solution projects so Application can see Domain and Infrastructure -->
     <ItemGroup>
-      <Folder Include="Features\Category\Commands\" />
-      <Folder Include="Features\Category\DTOs\" />
-      <Folder Include="Features\Category\Queries\" />
+      <ProjectReference Include="..\smartcoffe.Domain\smartcoffe.Domain.csproj" />
+      <ProjectReference Include="..\smartcoffe.Infrastructure\smartcoffe.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\smartcoffe.Domain\smartcoffe.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
