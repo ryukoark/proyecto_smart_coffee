@@ -1,88 +1,71 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.DTOs.Cafe;
-using System;
+using smartcoffe.Application.Features.Cafes.Commands;
+using smartcoffe.Application.Features.Cafes.Dtos;
+using smartcoffe.Application.Features.Cafes.Queries;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CafeController : ControllerBase
+    public class CafeController(IMediator mediator) : ControllerBase
     {
-        // ======== GET: Listar todos los cafés ========
+        // ✅ GET: api/cafe
         [HttpGet]
-        public ActionResult<IEnumerable<CafeListDto>> GetAll()
+        public async Task<ActionResult<IEnumerable<CafeListDto>>> GetAll()
         {
-            // Ejemplo con datos simulados
-            var cafes = new List<CafeListDto>
-            {
-                new CafeListDto { Id = 1, Name = "Smart Coffee Central", Company = "SmartCoffe Inc", Status = "Active" },
-                new CafeListDto { Id = 2, Name = "Smart Coffee Norte", Company = "SmartCoffe Inc", Status = "Inactive" }
-            };
-
+            var cafes = await mediator.Send(new GetAllCafes());
             return Ok(cafes);
         }
 
-        // ======== GET: Obtener un café por ID ========
+        // ✅ GET: api/cafe/{id}
         [HttpGet("{id}")]
-        public ActionResult<CafeGetDto> GetById(int id)
+        public async Task<ActionResult<CafeGetDto>> GetById(int id)
         {
-            // Ejemplo simulado
-            var cafe = new CafeGetDto
-            {
-                Id = id,
-                Name = "Smart Coffee Central",
-                Adress = "Av. Principal #123",
-                Company = "SmartCoffe Inc",
-                Status = "Active"
-            };
+            var cafe = await mediator.Send(new GetCafeById(id));
+            if (cafe == null)
+                return NotFound($"No se encontró un café con ID {id}");
 
             return Ok(cafe);
         }
 
-        // ======== POST: Crear un nuevo café ========
+        // ✅ POST: api/cafe
         [HttpPost]
-        public IActionResult Create([FromBody] CafeCreateDto dto)
+        public async Task<ActionResult<CafeGetDto>> Create([FromBody] CafeCreateDto dto)
         {
             if (dto == null)
-                return BadRequest("Datos inválidos.");
+                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
 
-            // Lógica para guardar en la base de datos
-            var newId = new Random().Next(100, 999);
-
-            return CreatedAtAction(nameof(GetById), new { id = newId }, dto);
+            var result = await mediator.Send(new CreateCafe(dto));
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        // ======== PUT: Actualizar un café existente ========
+        // ✅ PUT: api/cafe/{id}
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] CafeUpdateDto dto)
+        public async Task<ActionResult<CafeGetDto>> Update(int id, [FromBody] CafeUpdateDto dto)
         {
             if (dto == null)
-                return BadRequest("Datos inválidos.");
+                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
 
-            // Lógica de actualización simulada
-            return Ok(new
-            {
-                Message = $"Café con ID {id} actualizado correctamente.",
-                UpdatedData = dto
-            });
+            // Puedes validar si el café existe antes de actualizarlo
+            var updatedCafe = await mediator.Send(new UpdateCafe(dto));
+            if (updatedCafe == null)
+                return NotFound($"No se pudo actualizar el café con ID {id}");
+
+            return Ok(updatedCafe);
         }
 
-        // ======== DELETE: Eliminar o desactivar un café ========
-        [HttpDelete]
-        public IActionResult Delete([FromBody] CafeDeleteDto dto)
+        // ✅ DELETE: api/cafe/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
-            if (dto == null || dto.Id <= 0)
-                return BadRequest("ID inválido.");
+            var success = await mediator.Send(new DeleteCafe(id));
+            if (!success)
+                return NotFound($"No se encontró un café con ID {id} para eliminar.");
 
-            // Lógica simulada para eliminar o marcar como inactivo
-            return Ok(new
-            {
-                Message = $"Café con ID {dto.Id} eliminado correctamente.",
-                Reason = dto.Reason,
-                DeletedBy = dto.DeletedBy,
-                Status = dto.Status
-            });
+            return Ok($"Café con ID {id} eliminado correctamente.");
         }
     }
 }

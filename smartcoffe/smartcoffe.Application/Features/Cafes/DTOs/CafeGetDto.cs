@@ -1,7 +1,8 @@
-namespace smartcoffe.Application.DTOs.Cafe
+namespace smartcoffe.Application.Features.Cafes.Dtos
 {
-    public class CafeCreateDto
+    public class CafeGetDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Adress { get; set; }
         public string Company { get; set; }

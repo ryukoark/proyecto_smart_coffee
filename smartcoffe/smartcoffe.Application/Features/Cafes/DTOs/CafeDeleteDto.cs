@@ -1,4 +1,4 @@
-namespace smartcoffe.Application.DTOs.Cafe
+namespace smartcoffe.Application.Features.Cafes.Dtos
 {
     public class CafeDeleteDto
     {
