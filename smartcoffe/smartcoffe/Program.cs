@@ -8,6 +8,10 @@ using smartcoffe.Configuration; // El using para tus extensiones personalizadas
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container.
+// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
 // --- 1. CONFIGURACIÓN DE SERVICIOS (Dependency Injection) ---
 
 // Llama al registro de la capa de Aplicación (MediatR y Handlers)
@@ -39,6 +43,7 @@ builder.Services.AddAppServices(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     // ⭐ MIDDLEWARE DE SWAGGER ⭐
@@ -50,6 +55,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
 
 // ⭐ MIDDLEWARE PERSONALIZADO (DEBE IR DESPUÉS DE app.Build()) ⭐
 app.UseApp();

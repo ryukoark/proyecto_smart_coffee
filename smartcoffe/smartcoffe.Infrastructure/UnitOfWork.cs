@@ -5,11 +5,12 @@ using smartcoffe.Infrastructure.Repositories;
 
 namespace smartcoffe.Infrastructure
 {
+    // NOTA: Asume que la implementación GenericRepository está en smartcoffe.Infrastructure/Repositories/
     public class UnitOfWork : IUnitOfWork
     {
         private readonly SmartcoffeDbContext _context;
 
-        // Propiedades de Repositorios (campos privados)
+        // Propiedades de Repositorios (lazy-loading en la inicialización)
         private IGenericRepository<Product>? _products;
         private IGenericRepository<Cafe>? _cafes;
         private IGenericRepository<Promotion>? _promotions;
@@ -31,6 +32,8 @@ namespace smartcoffe.Infrastructure
         {
             get { return _products ??= new GenericRepository<Product>(_context); }
         }
+        
+        // Implementación de la propiedad Cafes
         public IGenericRepository<Cafe> Cafes
         {
             get { return _cafes ??= new GenericRepository<Cafe>(_context); }
@@ -75,6 +78,7 @@ namespace smartcoffe.Infrastructure
             return await _context.SaveChangesAsync();
         }
 
+        // Implementación de IDisposable para liberar recursos
         public void Dispose()
         {
             _context.Dispose();
