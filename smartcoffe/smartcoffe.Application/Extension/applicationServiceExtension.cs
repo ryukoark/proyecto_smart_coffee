@@ -19,6 +19,12 @@ using smartcoffe.Application.Promotion.Commands.CreatePromotion;
 using smartcoffe.Application.Promotion.Commands.DeletePromotion;
 using smartcoffe.Application.Promotion.Commands.UpdatePromotion;
 using smartcoffe.Domain.Interfaces;
+using smartcoffe.Application.Features.Product.Queries.GetAllProducts; 
+using smartcoffe.Application.Features.Supplier.Commands.CreateSupplier;
+using smartcoffe.Application.Features.Supplier.Commands.DeleteSupplier;
+using smartcoffe.Application.Features.Supplier.Commands.UpdateSupplier;
+using smartcoffe.Application.Features.Supplier.Queries.GetSupplier;
+using smartcoffe.Application.Features.Supplier.Queries.GetByIdSupplier;
 
 namespace smartcoffe.Application.Extension;
 
@@ -54,6 +60,17 @@ public static class ProjectServicesExtensions
                 cfg.RegisterServicesFromAssembly(typeof(deletePromotionHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(getAllPromotionsHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(getPromotionByIdHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(GetAllProductsHandler).Assembly); 
+                
+                // --- Handlers de Supplier (AÑADIDOS) ---
+                // Commands
+                cfg.RegisterServicesFromAssembly(typeof(CreateSupplierHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(DeleteSupplierHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(UpdateSupplierHandler).Assembly);
+            
+                // Queries
+                cfg.RegisterServicesFromAssembly(typeof(GetAllSuppliersHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(GetSupplierByIdHandler).Assembly);
 
             });
             return services;
