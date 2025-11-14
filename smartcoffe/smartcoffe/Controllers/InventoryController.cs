@@ -1,3 +1,9 @@
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using smartcoffe.Application.Features.Inventory.Commands;
+using smartcoffe.Application.Features.Inventory.DTOs;
+using smartcoffe.Application.Features.Inventory.Queries;
+
 namespace smartcoffe.Controllers
 {
     [ApiController]
