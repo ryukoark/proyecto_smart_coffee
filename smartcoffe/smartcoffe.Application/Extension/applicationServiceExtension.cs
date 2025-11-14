@@ -13,12 +13,7 @@ using smartcoffe.Application.Features.Promotion.Commands.CreatePromotion;
 using smartcoffe.Application.Features.Promotion.Commands.DeletePromotion;
 using smartcoffe.Application.Features.Promotion.Queries.GetByIdPromotion;
 using smartcoffe.Application.Features.Promotion.Queries.GetPromotion;
-using smartcoffe.Application.Features.Category.Commands;
-using smartcoffe.Application.Features.Category.Queries;
-using smartcoffe.Application.Promotion.Commands.CreatePromotion;
-using smartcoffe.Application.Promotion.Commands.DeletePromotion;
 using smartcoffe.Application.Promotion.Commands.UpdatePromotion;
-using smartcoffe.Domain.Interfaces;
 using smartcoffe.Application.Features.Product.Queries.GetAllProducts; 
 using smartcoffe.Application.Features.Supplier.Commands.CreateSupplier;
 using smartcoffe.Application.Features.Supplier.Commands.DeleteSupplier;
@@ -57,9 +52,6 @@ public static class ProjectServicesExtensions
             
                 // Queries
                 cfg.RegisterServicesFromAssembly(typeof(GetProductByIdHandler).Assembly);
-                cfg.RegisterServicesFromAssembly(typeof(deletePromotionHandler).Assembly);
-                cfg.RegisterServicesFromAssembly(typeof(getAllPromotionsHandler).Assembly);
-                cfg.RegisterServicesFromAssembly(typeof(getPromotionByIdHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetAllProductsHandler).Assembly); 
                 
                 // --- Handlers de Supplier (AÑADIDOS) ---
