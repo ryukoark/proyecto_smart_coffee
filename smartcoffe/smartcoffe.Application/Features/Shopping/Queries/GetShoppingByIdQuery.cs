@@ -25,7 +25,7 @@ namespace smartcoffe.Application.Features.Shopping.Queries
 
         public async Task<ShoppingGetDto> Handle(GetShoppingByIdQuery request, CancellationToken cancellationToken)
         {
-            var shopping = await _unitOfWork.Shoppings.GetByIdAsync(request.Id);
+            var shopping = await _unitOfWork.Repository<Domain.Entities.Shopping>().GetByIdAsync(request.Id);
             if (shopping == null) return null;
 
             return new ShoppingGetDto

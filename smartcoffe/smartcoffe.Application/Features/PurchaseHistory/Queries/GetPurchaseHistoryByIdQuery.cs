@@ -18,7 +18,7 @@ internal sealed class GetPurchaseHistoryByIdQueryHandler : IRequestHandler<GetPu
 
 	public async Task<PurchaseHistoryGetDto?> Handle(GetPurchaseHistoryByIdQuery request, CancellationToken cancellationToken)
 	{
-		var e = await _unitOfWork.PurchaseHistories.GetByIdAsync(request.Id);
+		var e = await _unitOfWork.Repository<Domain.Entities.PurchaseHistory>().GetByIdAsync(request.Id);
 		if (e is null) return null;
 
 		return new PurchaseHistoryGetDto

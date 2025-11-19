@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Category.Queries.GetAllCategoriesQuery
 
         public async Task<IEnumerable<CategoryDto>> Handle(Queries.GetAllCategoriesQuery.GetAllCategoriesQuery request, CancellationToken cancellationToken)
         {
-            var categories = await _unitOfWork.Categories.GetAllAsync();
+            var categories = await _unitOfWork.Repository<Domain.Entities.Category>().GetAllAsync();
 
             // Mapeo manual de Entidad a DTO
             var categoriesDto = categories.Select(c => new CategoryDto

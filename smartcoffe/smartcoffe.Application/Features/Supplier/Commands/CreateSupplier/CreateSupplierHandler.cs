@@ -25,7 +25,7 @@ namespace smartcoffe.Application.Features.Supplier.Commands.CreateSupplier
                 Status = dto.Status // El DTO ya establece 'true' por defecto
             };
 
-            await _unitOfWork.Suppliers.AddAsync(supplier);
+            await _unitOfWork.Repository<Domain.Entities.Supplier>().AddAsync(supplier);
             await _unitOfWork.CompleteAsync();
         }
     }

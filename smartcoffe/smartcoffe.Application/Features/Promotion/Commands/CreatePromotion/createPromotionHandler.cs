@@ -28,7 +28,7 @@ public class CreatePromotionHandler : IRequestHandler<CreatePromotionCommand>
             Status = dto.Status
         };
         
-        await _unitOfWork.Promotions.AddAsync(promotion);
+        await _unitOfWork.Repository<Domain.Entities.Promotion>().AddAsync(promotion);
         await _unitOfWork.CompleteAsync();
 
         return;

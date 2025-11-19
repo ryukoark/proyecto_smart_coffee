@@ -33,7 +33,7 @@ namespace smartcoffe.Application.Features.Shopping.Commands
                 Status = true
             };
 
-            await _unitOfWork.Shoppings.AddAsync(shopping);
+            await _unitOfWork.Repository<Domain.Entities.Shopping>().AddAsync(shopping);
             await _unitOfWork.CompleteAsync();
 
             return shopping.Id;

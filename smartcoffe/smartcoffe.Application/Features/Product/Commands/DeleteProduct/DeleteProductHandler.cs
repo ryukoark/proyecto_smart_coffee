@@ -14,7 +14,7 @@ namespace smartcoffe.Application.Features.Product.Commands.DeleteProduct
 
         public async Task Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var product = await _unitOfWork.Repository<Domain.Entities.Product>().GetByIdAsync(request.Id);
 
             if (product == null)
             {
@@ -24,7 +24,7 @@ namespace smartcoffe.Application.Features.Product.Commands.DeleteProduct
             // Soft delete: solo cambiamos el estado
             product.Status = false;
 
-            _unitOfWork.Products.Update(product);
+            _unitOfWork.Repository<Domain.Entities.Product>().Update(product);
             await _unitOfWork.CompleteAsync();
         }
     }

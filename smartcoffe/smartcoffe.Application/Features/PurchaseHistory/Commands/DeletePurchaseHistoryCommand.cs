@@ -15,11 +15,11 @@ internal sealed class DeletePurchaseHistoryCommandHandler : IRequestHandler<Dele
 	public async Task<Unit> Handle(DeletePurchaseHistoryCommand request, CancellationToken cancellationToken)
 	{
 		var id = request.Dto.Id;
-		var entity = await _unitOfWork.PurchaseHistories.GetByIdAsync(id);
+		var entity = await _unitOfWork.Repository<Domain.Entities.PurchaseHistory>().GetByIdAsync(id);
 		if (entity == null) throw new KeyNotFoundException($"PurchaseHistory with id {id} not found.");
 
 		entity.Status = false;
-		_unitOfWork.PurchaseHistories.Update(entity);
+		_unitOfWork.Repository<Domain.Entities.PurchaseHistory>().Update(entity);
 		await _unitOfWork.CompleteAsync();
 
 		return Unit.Value;

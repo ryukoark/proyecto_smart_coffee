@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Category.Commands.DeleteCategory
         public async Task<bool> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             // 1. Obtener la entidad a eliminar
-            var categoryToDelete = await _unitOfWork.Categories.GetByIdAsync(request.Id);
+            var categoryToDelete = await _unitOfWork.Repository<Domain.Entities.Category>().GetByIdAsync(request.Id);
 
             // 2. Validar si existe
             if (categoryToDelete == null)
@@ -24,7 +24,7 @@ namespace smartcoffe.Application.Features.Category.Commands.DeleteCategory
             }
 
             // 3. Eliminar del repositorio
-            _unitOfWork.Categories.Remove(categoryToDelete);
+            _unitOfWork.Repository<Domain.Entities.Category>().Remove(categoryToDelete);
 
             // 4. Guardar cambios
             await _unitOfWork.CompleteAsync();

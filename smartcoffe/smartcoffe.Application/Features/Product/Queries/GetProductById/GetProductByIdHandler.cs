@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Product.Queries.GetProductById
 
         public async Task<ProductDto> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
         {
-            var product = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var product = await _unitOfWork.Repository<Domain.Entities.Product>().GetByIdAsync(request.Id);
 
             if (product == null || !product.Status)
             {

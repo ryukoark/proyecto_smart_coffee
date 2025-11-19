@@ -19,7 +19,7 @@ namespace smartcoffe.Application.Features.Shopping.Queries
 
         public async Task<IEnumerable<ShoppingListDto>> Handle(GetAllShoppingsQuery request, CancellationToken cancellationToken)
         {
-            var shoppings = await _unitOfWork.Shoppings.GetAllAsync();
+            var shoppings = await _unitOfWork.Repository<Domain.Entities.Shopping>().GetAllAsync();
 
             return shoppings.Select(s => new ShoppingListDto
             {

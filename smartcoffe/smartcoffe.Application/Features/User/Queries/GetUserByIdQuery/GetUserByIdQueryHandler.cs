@@ -16,7 +16,7 @@ namespace smartcoffe.Application.Features.User.Queries.GetUserByIdQuery
         public async Task<UserDto> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
             // 1. Buscar en la base de datos
-            var user = await _unitOfWork.Users.GetByIdAsync(request.Id);
+            var user = await _unitOfWork.Repository<Domain.Entities.User>().GetByIdAsync(request.Id);
 
             // 2. Validar existencia
             if (user == null)

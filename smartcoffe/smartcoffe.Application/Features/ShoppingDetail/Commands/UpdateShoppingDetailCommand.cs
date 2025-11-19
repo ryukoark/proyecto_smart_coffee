@@ -27,13 +27,13 @@ namespace smartcoffe.Application.Features.ShoppingDetail.Commands
 
         public async Task<bool> Handle(UpdateShoppingDetailCommand request, CancellationToken cancellationToken)
         {
-            var shoppingDetail = await _unitOfWork.ShoppingDetails.GetByIdAsync(request.Id);
+            var shoppingDetail = await _unitOfWork.Repository<Domain.Entities.ShoppingDetail>().GetByIdAsync(request.Id);
             if (shoppingDetail == null) return false;
 
             shoppingDetail.Quantity = 1; // Ajusta según los datos del DTO
             shoppingDetail.Amount = 0; // Ajusta según los datos del DTO
 
-            _unitOfWork.ShoppingDetails.Update(shoppingDetail);
+            _unitOfWork.Repository<Domain.Entities.ShoppingDetail>().Update(shoppingDetail);
             await _unitOfWork.CompleteAsync();
 
             return true;

@@ -24,10 +24,10 @@ namespace smartcoffe.Application.Features.Shopping.Commands
 
         public async Task<bool> Handle(DeleteShoppingCommand request, CancellationToken cancellationToken)
         {
-            var shopping = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var shopping = await _unitOfWork.Repository<Domain.Entities.Shopping>().GetByIdAsync(request.Id);
             if (shopping == null) return false;
 
-            _unitOfWork.Products.Remove(shopping);
+            _unitOfWork.Repository<Domain.Entities.Shopping>().Remove(shopping);
             await _unitOfWork.CompleteAsync();
 
             return true;

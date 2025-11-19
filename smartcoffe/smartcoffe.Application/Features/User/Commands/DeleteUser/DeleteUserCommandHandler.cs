@@ -14,7 +14,7 @@ public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, bool>
 
     public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _unitOfWork.Users.GetByIdAsync(request.Id);
+        var user = await _unitOfWork.Repository<Domain.Entities.User>().GetByIdAsync(request.Id);
         if (user == null) return false;
 
         // Opción: Borrado lógico cambiando el estado

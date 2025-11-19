@@ -16,7 +16,7 @@ public class GetPromotionByIdHandler : IRequestHandler<GetPromotionByIdQuery, Pr
 
     public async Task<PromotionDTo> Handle(GetPromotionByIdQuery request, CancellationToken cancellationToken)
     {
-        var promotion = await _unitOfWork.Promotions.GetByIdAsync(request.Id);
+        var promotion = await _unitOfWork.Repository<Domain.Entities.Promotion>().GetByIdAsync(request.Id);
 
         if (promotion == null || !promotion.Status)
         {

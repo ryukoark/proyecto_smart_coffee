@@ -15,7 +15,7 @@ public class updatePromotionHandler : IRequestHandler<UpdatePromotionCommand>
 
     public async Task Handle(UpdatePromotionCommand request, CancellationToken cancellationToken)
     {
-        var existingPromotion = await _unitOfWork.Promotions.GetByIdAsync(request.Id);
+        var existingPromotion = await _unitOfWork.Repository<Domain.Entities.Promotion>().GetByIdAsync(request.Id);
         if (existingPromotion == null)
         {
             throw new KeyNotFoundException($"Promotion with ID {request.Id} not found.");
@@ -30,7 +30,7 @@ public class updatePromotionHandler : IRequestHandler<UpdatePromotionCommand>
         existingPromotion.Enddate = dto.endDate;
         existingPromotion.Status = dto.Status;
 
-        _unitOfWork.Promotions.Update(existingPromotion);
+        _unitOfWork.Repository<Domain.Entities.Promotion>().Update(existingPromotion);
         await _unitOfWork.CompleteAsync();
     }
 }

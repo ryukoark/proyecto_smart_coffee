@@ -15,7 +15,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
     public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         // 1. Obtener entidad del repositorio
-        var user = await _unitOfWork.Users.GetByIdAsync(request.Id);
+        var user = await _unitOfWork.Repository<Domain.Entities.User>().GetByIdAsync(request.Id);
 
         if (user == null) return false;
 

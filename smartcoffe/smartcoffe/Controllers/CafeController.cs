@@ -3,9 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.Cafes.Commands;                    // ✔ Correcto
 using smartcoffe.Application.Features.Cafes.Dtos;
 using smartcoffe.Application.Features.Cafes.Queries.GetAllCafesQuery;   // ✔ Correcto
-using smartcoffe.Application.Features.Cafes.Queries.GetCafeByIdQuery;   // ✔ Correcto
+// ✔ Correcto
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using smartcoffe.Application.Features.Cafes.Queries.GetCafesByIdQuery;
 
 namespace smartcoffe.Controllers
 {

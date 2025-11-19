@@ -16,20 +16,20 @@ internal sealed class UpdatePurchaseHistoryCommandHandler : IRequestHandler<Upda
 	{
 		var dto = request.Dto;
 
-		var entity = await _unitOfWork.PurchaseHistories.GetByIdAsync(request.Id);
+		var entity = await _unitOfWork.Repository<Domain.Entities.PurchaseHistory>().GetByIdAsync(request.Id);
 		if (entity == null) throw new KeyNotFoundException($"PurchaseHistory with id {request.Id} not found.");
 
 		if (dto.IdUser.HasValue)
 		{
 			if (dto.IdUser.Value <= 0) throw new ArgumentException("IdUser must be a positive integer.");
-			var user = await _unitOfWork.Users.GetByIdAsync(dto.IdUser.Value);
+			var user = await _unitOfWork.Repository<Domain.Entities.User>().GetByIdAsync(dto.IdUser.Value);
 			if (user is null) throw new KeyNotFoundException($"User with id {dto.IdUser} was not found.");
 		}
 
 		if (dto.IdShopping.HasValue)
 		{
 			if (dto.IdShopping.Value <= 0) throw new ArgumentException("IdShopping must be a positive integer.");
-			var shopping = await _unitOfWork.Shoppings.GetByIdAsync(dto.IdShopping.Value);
+			var shopping = await _unitOfWork.Repository<Domain.Entities.Shopping>().GetByIdAsync(dto.IdShopping.Value);
 			if (shopping is null) throw new KeyNotFoundException($"Shopping with id {dto.IdShopping} was not found.");
 		}
 
@@ -38,7 +38,7 @@ internal sealed class UpdatePurchaseHistoryCommandHandler : IRequestHandler<Upda
 		if (dto.IdShopping.HasValue) entity.Idshopping = dto.IdShopping.Value;
 		if (dto.IdPayment is not null) entity.IdPayment = dto.IdPayment;
 
-		_unitOfWork.PurchaseHistories.Update(entity);
+		_unitOfWork.Repository<Domain.Entities.PurchaseHistory>().Update(entity);
 		try
 		{
 			await _unitOfWork.CompleteAsync();

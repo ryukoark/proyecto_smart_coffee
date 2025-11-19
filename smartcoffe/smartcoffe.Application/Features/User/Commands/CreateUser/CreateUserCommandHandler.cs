@@ -29,7 +29,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
 
         // 2. Agregar la entidad al repositorio a través del UnitOfWork
         // Asumo que tu UoW tiene una propiedad 'Users' que es el repositorio
-        await _unitOfWork.Users.AddAsync(user);
+        await _unitOfWork.Repository<Domain.Entities.User>().AddAsync(user);
 
         // 3. Guardar cambios (Commit de la transacción)
         await _unitOfWork.CompleteAsync();

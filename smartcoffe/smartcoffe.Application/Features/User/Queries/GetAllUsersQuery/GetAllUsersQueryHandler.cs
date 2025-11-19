@@ -17,7 +17,7 @@ namespace smartcoffe.Application.Features.User.Queries.GetAllUsersQuery
         {
             // 1. Obtener la lista de entidades desde el repositorio
             // Asumiendo que tu IUnitOfWork tiene un repositorio 'Users' o usas un método genérico
-            var usersList = await _unitOfWork.Users.GetAllAsync(); 
+            var usersList = await _unitOfWork.Repository<Domain.Entities.User>().GetAllAsync(); 
 
             // 2. Mapear de Entidad a DTO
             // Si usas AutoMapper: return _mapper.Map<IEnumerable<UserDto>>(usersList);
