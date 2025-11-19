@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using smartcoffe.Application.Features.Cafes.Queries.GetAllCafesQuery;
 using smartcoffe.Application.Features.Category.Commands.CreateCategory;
 using smartcoffe.Application.Features.Category.Commands.DeleteCategory;
 using smartcoffe.Application.Features.Category.Commands.UpdateCategory;
@@ -33,8 +34,10 @@ public static class ProjectServicesExtensions
                 cfg.RegisterServicesFromAssembly(typeof(CreatePromotionHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(updatePromotionHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(DeletePromotionHandler).Assembly);
+                
                 cfg.RegisterServicesFromAssembly(typeof(GetAllPromotionsHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetPromotionByIdHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(GetAllCafesQueryHandler).Assembly);
                 // --- Handlers de Categoría (Añadidos) ---
                 // Commands
                 cfg.RegisterServicesFromAssembly(typeof(CreateCategoryCommandHandler).Assembly);
