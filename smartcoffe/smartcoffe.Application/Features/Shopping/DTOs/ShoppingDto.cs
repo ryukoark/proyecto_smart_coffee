@@ -1,6 +1,6 @@
 namespace smartcoffe.Application.DTOs.Shopping
 {
-    public class ShoppingUpdateDto
+    public class ShoppingDto
     {
         public int Id { get; set; }
         public decimal Total { get; set; }

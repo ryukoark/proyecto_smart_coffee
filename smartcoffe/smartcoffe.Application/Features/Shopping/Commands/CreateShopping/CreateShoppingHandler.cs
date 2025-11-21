@@ -1,19 +1,8 @@
 using MediatR;
-using smartcoffe.Application.DTOs.Shopping;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Shopping.Commands
+namespace smartcoffe.Application.Features.Shopping.Commands.CreateShopping
 {
-    public class CreateShoppingCommand : IRequest<int>
-    {
-        public ShoppingCreateDto Shopping { get; set; }
-
-        public CreateShoppingCommand(ShoppingCreateDto shopping)
-        {
-            Shopping = shopping;
-        }
-    }
-
     public class CreateShoppingCommandHandler : IRequestHandler<CreateShoppingCommand, int>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -29,7 +18,7 @@ namespace smartcoffe.Application.Features.Shopping.Commands
             {
                 Date = DateTime.Now,
                 Total = request.Shopping.Price,
-                Promotion = null, // Puedes ajustar esto según sea necesario
+                Promotion = null, // Ajustar según sea necesario
                 Status = true
             };
 

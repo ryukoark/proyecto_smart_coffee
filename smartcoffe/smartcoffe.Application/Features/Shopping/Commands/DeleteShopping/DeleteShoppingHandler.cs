@@ -1,18 +1,8 @@
 using MediatR;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Shopping.Commands
+namespace smartcoffe.Application.Features.Shopping.Commands.DeleteShopping
 {
-    public class DeleteShoppingCommand : IRequest<bool>
-    {
-        public int Id { get; set; }
-
-        public DeleteShoppingCommand(int id)
-        {
-            Id = id;
-        }
-    }
-
     public class DeleteShoppingCommandHandler : IRequestHandler<DeleteShoppingCommand, bool>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -24,10 +14,10 @@ namespace smartcoffe.Application.Features.Shopping.Commands
 
         public async Task<bool> Handle(DeleteShoppingCommand request, CancellationToken cancellationToken)
         {
-            var shopping = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var shopping = await _unitOfWork.Shoppings.GetByIdAsync(request.Id);
             if (shopping == null) return false;
 
-            _unitOfWork.Products.Remove(shopping);
+            _unitOfWork.Shoppings.Remove(shopping);
             await _unitOfWork.CompleteAsync();
 
             return true;

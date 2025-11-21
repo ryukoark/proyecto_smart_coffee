@@ -2,7 +2,10 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.DTOs.Shopping;
 using smartcoffe.Application.Features.Shopping.Commands;
+using smartcoffe.Application.Features.Shopping.Commands.UpdateShopping;
 using smartcoffe.Application.Features.Shopping.Queries;
+using smartcoffe.Application.Features.Shopping.Queries.GetAllShoppings;
+using smartcoffe.Application.Features.Shopping.Queries.GetShoppingById;
 
 namespace smartcoffe.Controllers
 {

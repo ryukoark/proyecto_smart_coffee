@@ -1,19 +1,8 @@
 using MediatR;
-using smartcoffe.Application.DTOs.ShoppingDetail;
-using smartcoffe.Domain.Interfaces; // Asegúrate de que este using esté presente
+using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Features.ShoppingDetail.Commands.UpdateShoppingDetail
 {
-    public class UpdateShoppingDetailCommand : IRequest<bool>
-    {
-        public ShoppingDetailCreateDto ShoppingDetail { get; set; }
-
-        public UpdateShoppingDetailCommand(ShoppingDetailCreateDto shoppingDetail)
-        {
-            ShoppingDetail = shoppingDetail;
-        }
-    }
-
     public class UpdateShoppingDetailCommandHandler : IRequestHandler<UpdateShoppingDetailCommand, bool>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -25,13 +14,10 @@ namespace smartcoffe.Application.Features.ShoppingDetail.Commands.UpdateShopping
 
         public async Task<bool> Handle(UpdateShoppingDetailCommand request, CancellationToken cancellationToken)
         {
-            var shoppingDetail = await _unitOfWork.ShoppingDetails.GetByIdAsync(request.ShoppingDetail.IdShopping);
+            var shoppingDetail = await _unitOfWork.ShoppingDetails.GetByIdAsync(request.ShoppingDetail.Id);
             if (shoppingDetail == null) return false;
 
-            shoppingDetail.IdProduct = request.ShoppingDetail.IdProduct;
-            shoppingDetail.Quantity = request.ShoppingDetail.Quantity;
             shoppingDetail.Amount = request.ShoppingDetail.Price;
-            shoppingDetail.Status = request.ShoppingDetail.Status;
 
             _unitOfWork.ShoppingDetails.Update(shoppingDetail);
             await _unitOfWork.CompleteAsync();

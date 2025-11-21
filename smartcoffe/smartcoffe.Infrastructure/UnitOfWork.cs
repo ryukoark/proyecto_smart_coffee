@@ -84,5 +84,10 @@ namespace smartcoffe.Infrastructure
             _context.Dispose();
             GC.SuppressFinalize(this);
         }
+
+        public IGenericRepository<T> Repository<T>() where T : class
+        {
+            return new GenericRepository<T>(_context);
+        }
     }
 }
