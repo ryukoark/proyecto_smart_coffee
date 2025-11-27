@@ -3,6 +3,7 @@ using smartcoffe.Domain.Interfaces;
 using smartcoffe.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using smartcoffe.Infrastructure.Services;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 namespace smartcoffe.Infrastructure.DependencyInjection
 {
@@ -17,6 +18,7 @@ namespace smartcoffe.Infrastructure.DependencyInjection
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))); 
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthService, AuthService>();
 
             return services;
         }
