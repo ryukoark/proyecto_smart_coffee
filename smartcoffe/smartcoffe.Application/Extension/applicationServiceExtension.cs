@@ -1,6 +1,5 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using smartcoffe.Application.Features.Cafes.Queries.GetAllCafesQuery;
 using smartcoffe.Application.Features.Category.Commands.CreateCategory;
 using smartcoffe.Application.Features.Category.Commands.DeleteCategory;
 using smartcoffe.Application.Features.Category.Commands.UpdateCategory;
@@ -21,6 +20,11 @@ using smartcoffe.Application.Features.Supplier.Commands.DeleteSupplier;
 using smartcoffe.Application.Features.Supplier.Commands.UpdateSupplier;
 using smartcoffe.Application.Features.Supplier.Queries.GetSupplier;
 using smartcoffe.Application.Features.Supplier.Queries.GetByIdSupplier;
+using smartcoffe.Application.Features.User.Commands;
+using smartcoffe.Application.Features.User.Commands.DeleteUser;
+using smartcoffe.Application.Features.User.Commands.UpdateUser;
+using smartcoffe.Application.Features.User.Queries.GetAllUsersQuery;
+using smartcoffe.Application.Features.User.Queries.GetUserByIdQuery;
 
 namespace smartcoffe.Application.Extension;
 
@@ -31,28 +35,29 @@ public static class ProjectServicesExtensions
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                // --- Handlers de Promotion(Añadidos) ---
+                // Commands
                 cfg.RegisterServicesFromAssembly(typeof(CreatePromotionHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(updatePromotionHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(DeletePromotionHandler).Assembly);
-                
+                // Queries
                 cfg.RegisterServicesFromAssembly(typeof(GetAllPromotionsHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetPromotionByIdHandler).Assembly);
-                cfg.RegisterServicesFromAssembly(typeof(GetAllCafesQueryHandler).Assembly);
+              
                 // --- Handlers de Categoría (Añadidos) ---
                 // Commands
                 cfg.RegisterServicesFromAssembly(typeof(CreateCategoryCommandHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(DeleteCategoryCommandHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(UpdateCategoryCommandHandler).Assembly);
-            
                 // Queries
                 cfg.RegisterServicesFromAssembly(typeof(GetAllCategoriesQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetCategoryByIdQueryHandler).Assembly);
+                
                 // --- Handlers de Producto (Añadidos) ---
                 // Commands
                 cfg.RegisterServicesFromAssembly(typeof(CreateProductHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(DeleteProductHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(UpdateProductHandler).Assembly);
-            
                 // Queries
                 cfg.RegisterServicesFromAssembly(typeof(GetProductByIdHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetAllProductsHandler).Assembly); 
@@ -62,10 +67,18 @@ public static class ProjectServicesExtensions
                 cfg.RegisterServicesFromAssembly(typeof(CreateSupplierHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(DeleteSupplierHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(UpdateSupplierHandler).Assembly);
-            
                 // Queries
                 cfg.RegisterServicesFromAssembly(typeof(GetAllSuppliersHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetSupplierByIdHandler).Assembly);
+
+                // --- Handlers de User (AÑADIDOS) ---
+                // Commands
+                cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(DeleteUserCommandHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(UpdateUserCommandHandler).Assembly);
+                // Queries
+                cfg.RegisterServicesFromAssembly(typeof(GetAllUsersQueryHandler).Assembly);
+                cfg.RegisterServicesFromAssembly(typeof(GetUserByIdQueryHandler).Assembly);
 
             });
             return services;

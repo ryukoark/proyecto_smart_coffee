@@ -4,15 +4,8 @@ using smartcoffe.Domain.Interfaces;
 
 namespace smartcoffe.Application.Features.User.Commands;
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
+public class CreateUserCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<CreateUserCommand, int>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CreateUserCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         // 1. Mapeo de Command a Entidad de Dominio
@@ -29,10 +22,10 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
 
         // 2. Agregar la entidad al repositorio a través del UnitOfWork
         // Asumo que tu UoW tiene una propiedad 'Users' que es el repositorio
-        await _unitOfWork.Repository<Domain.Entities.User>().AddAsync(user);
+        await unitOfWork.Repository<Domain.Entities.User>().AddAsync(user);
 
         // 3. Guardar cambios (Commit de la transacción)
-        await _unitOfWork.CompleteAsync();
+        await unitOfWork.CompleteAsync();
 
         // 4. Retornar el ID generado
         return user.Id;
