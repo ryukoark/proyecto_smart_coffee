@@ -1,3 +1,8 @@
+# Ignore appsettings configuration files (contain secrets)
+smartcoffe/smartcoffe/appsettings.json
+smartcoffe/smartcoffe/appsettings.Development.json
+smartcoffe/smartcoffe/appsettings.*.json
+
 # Build results
 bin/
 obj/
