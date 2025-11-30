@@ -14,7 +14,7 @@ namespace smartcoffe.Application.Features.Product.Commands.UpdateProduct
 
         public async Task Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
-            var existingProduct = await _unitOfWork.Products.GetByIdAsync(request.Id);
+            var existingProduct = await _unitOfWork.Repository<Domain.Entities.Product>().GetByIdAsync(request.Id);
 
             if (existingProduct == null)
             {
@@ -31,7 +31,7 @@ namespace smartcoffe.Application.Features.Product.Commands.UpdateProduct
             existingProduct.IdPromotion = dto.IdPromotion;
             existingProduct.Status = dto.Status;
 
-            _unitOfWork.Products.Update(existingProduct);
+            _unitOfWork.Repository<Domain.Entities.Product>().Update(existingProduct);
             await _unitOfWork.CompleteAsync();
         }
     }

@@ -24,7 +24,7 @@ internal sealed class CreatePurchaseHistoryCommandHandler : IRequestHandler<Crea
 			Status = dto.Status ?? true
 		};
 
-		await _unitOfWork.PurchaseHistories.AddAsync(entity);
+		await _unitOfWork.Repository<Domain.Entities.PurchaseHistory>().AddAsync(entity);
 		await _unitOfWork.CompleteAsync();
 
 		return entity.Id;

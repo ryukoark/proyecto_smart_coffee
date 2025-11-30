@@ -14,7 +14,7 @@ namespace smartcoffe.Application.Features.Supplier.Commands.UpdateSupplier
 
         public async Task Handle(UpdateSupplierCommand request, CancellationToken cancellationToken)
         {
-            var existingSupplier = await _unitOfWork.Suppliers.GetByIdAsync(request.Id);
+            var existingSupplier = await _unitOfWork.Repository<Domain.Entities.Supplier>().GetByIdAsync(request.Id);
 
             if (existingSupplier == null)
             {
@@ -30,7 +30,7 @@ namespace smartcoffe.Application.Features.Supplier.Commands.UpdateSupplier
             existingSupplier.Email = dto.Email;
             existingSupplier.Status = dto.Status;
 
-            _unitOfWork.Suppliers.Update(existingSupplier);
+            _unitOfWork.Repository<Domain.Entities.Supplier>().Update(existingSupplier);
             await _unitOfWork.CompleteAsync();
         }
     }

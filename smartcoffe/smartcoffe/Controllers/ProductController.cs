@@ -33,6 +33,9 @@ namespace smartcoffe.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateDto dto)
         {
+            // --- AÑADIR ESTA LÍNEA ---
+            dto.Id = id; 
+            // -------------------------
             // Envía el comando al handler de UpdateProduct
             // El DTO de update no necesita el id, se pasa por separado.
             await _mediator.Send(new UpdateProductCommand(id, dto));

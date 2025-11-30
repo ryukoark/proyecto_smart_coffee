@@ -14,7 +14,7 @@ public class DeletePromotionHandler : IRequestHandler<DeletePromotionCommand>
 
     public async Task Handle(DeletePromotionCommand request, CancellationToken cancellationToken)
     {
-        var promotion = await _unitOfWork.Promotions.GetByIdAsync(request.Id);
+        var promotion = await _unitOfWork.Repository<Domain.Entities.Promotion>().GetByIdAsync(request.Id);
 
         if (promotion == null)
         {
@@ -22,7 +22,7 @@ public class DeletePromotionHandler : IRequestHandler<DeletePromotionCommand>
         }
         promotion.Status = false;
 
-        _unitOfWork.Promotions.Update(promotion);
+        _unitOfWork.Repository<Domain.Entities.Promotion>().Update(promotion);
         await _unitOfWork.CompleteAsync();
     }
 }

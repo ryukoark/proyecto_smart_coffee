@@ -3,10 +3,16 @@ using smartcoffe.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.Configuration; 
 using Microsoft.OpenApi.Models; 
 using Microsoft.AspNetCore.Builder; 
-using Microsoft.AspNetCore.Mvc; // Aseguramos este using si lo necesitas
-using smartcoffe.Configuration; // El using para tus extensiones personalizadas
+using Microsoft.AspNetCore.Mvc;
+using smartcoffe.Configuration;
+using Hangfire;
+using Hangfire.PostgreSql;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
 
 // --- 1. CONFIGURACIÓN DE SERVICIOS (Dependency Injection) ---
 
@@ -16,7 +22,17 @@ builder.Services.AddProjectServices();
 // Llama al registro de Infraestructura (DbContext de PostgreSQL y UnitOfWork)
 builder.Services.AddInfrastructure(builder.Configuration);
 
-// ⭐ CONFIGURACIÓN DE SWAGGER ⭐
+// CONFIGURACIÓN DE HANGFIRE
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UsePostgreSqlStorage(options => options.UseNpgsqlConnection(builder.Configuration.GetConnectionString("DefaultConnection"))));
+
+// Añade el servidor de Hangfire (quien procesa las tareas en segundo plano)
+builder.Services.AddHangfireServer();
+
+// CONFIGURACIÓN DE SWAGGER
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -26,12 +42,37 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1",
         Description = "API para la gestión de categorías, productos y promociones en Smart Coffee."
     });
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter JWT token: Bearer {token}"
+    };
+    c.AddSecurityDefinition("Bearer", securityScheme);
+    var securityRequirement = new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    };
+    c.AddSecurityRequirement(securityRequirement);
 });
 
 // Agregar soporte para Controllers
 builder.Services.AddControllers();
 
-// ⭐ LÓGICA DE SERVICIOS PERSONALIZADA (DEBE IR ANTES DE app.Build()) ⭐
+// LÓGICA DE SERVICIOS PERSONALIZADA
 builder.Services.AddAppServices(builder.Configuration, builder.Environment);
 
 
@@ -39,9 +80,9 @@ builder.Services.AddAppServices(builder.Configuration, builder.Environment);
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // ⭐ MIDDLEWARE DE SWAGGER ⭐
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -50,8 +91,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
 
-// ⭐ MIDDLEWARE PERSONALIZADO (DEBE IR DESPUÉS DE app.Build()) ⭐
+app.UseHangfireDashboard(); 
+
 app.UseApp();
 
 // Mapeo de Endpoints

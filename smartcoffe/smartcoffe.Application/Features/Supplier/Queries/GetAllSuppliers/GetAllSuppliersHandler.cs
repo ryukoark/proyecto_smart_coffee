@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Supplier.Queries.GetSupplier
 
         public async Task<IEnumerable<SupplierListDto>> Handle(GetAllSuppliersQuery request, CancellationToken cancellationToken)
         {
-            var suppliers = await _unitOfWork.Suppliers.GetAllAsync();
+            var suppliers = await _unitOfWork.Repository<Domain.Entities.Supplier>().GetAllAsync();
 
             // Filtramos solo los activos y mapeamos al DTO ligero
             var activeSuppliersDto = suppliers

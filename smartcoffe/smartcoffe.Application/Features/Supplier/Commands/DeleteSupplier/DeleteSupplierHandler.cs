@@ -14,7 +14,7 @@ namespace smartcoffe.Application.Features.Supplier.Commands.DeleteSupplier
 
         public async Task Handle(DeleteSupplierCommand request, CancellationToken cancellationToken)
         {
-            var supplier = await _unitOfWork.Suppliers.GetByIdAsync(request.Id);
+            var supplier = await _unitOfWork.Repository<Domain.Entities.Supplier>().GetByIdAsync(request.Id);
 
             if (supplier == null)
             {
@@ -24,7 +24,7 @@ namespace smartcoffe.Application.Features.Supplier.Commands.DeleteSupplier
             // Soft delete: solo cambiamos el estado
             supplier.Status = false;
 
-            _unitOfWork.Suppliers.Update(supplier);
+            _unitOfWork.Repository<Domain.Entities.Supplier>().Update(supplier);
             await _unitOfWork.CompleteAsync();
         }
     }

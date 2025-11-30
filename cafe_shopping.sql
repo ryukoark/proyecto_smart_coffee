@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS PRODUCT (
     price DECIMAL(10, 2) NOT NULL,
     ID_category INT,
     ID_promotion INT,
+    description TEXT, -- CORRECCIÓN: Se coloca 'description' como el último campo no FK
     Status BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (ID_category) REFERENCES CATEGORY(ID),
     FOREIGN KEY (ID_promotion) REFERENCES PROMOTION(ID)
@@ -109,4 +110,28 @@ CREATE TABLE IF NOT EXISTS PURCHASE_HISTORY (
     Status BOOLEAN NOT NULL DEFAULT TRUE,
     FOREIGN KEY (IdUser) REFERENCES USERS(ID),
     FOREIGN KEY (IdShopping) REFERENCES SHOPPING(ID)
+);
+
+-- Tabla RESERVATION (Alineada con el DER)
+CREATE TABLE IF NOT EXISTS RESERVATION (
+    ID SERIAL PRIMARY KEY,
+    ID_user INT NOT NULL,
+    ID_cafe INT NOT NULL,
+    reservation_date DATE NOT NULL,
+    reservation_code VARCHAR(50) UNIQUE NOT NULL,
+    reservation_status VARCHAR(50) NOT NULL DEFAULT 'PENDING',
+    notes TEXT,
+    FOREIGN KEY (ID_user) REFERENCES USERS(ID),
+    FOREIGN KEY (ID_cafe) REFERENCES CAFE(ID)
+);
+
+-- Tabla RESERVATION_DETAIL (Alineada con el DER)
+CREATE TABLE IF NOT EXISTS RESERVATION_DETAIL (
+    ID SERIAL PRIMARY KEY,
+    ID_reservation INT NOT NULL,
+    ID_product INT,
+    quantity INT,
+    detail_description VARCHAR(255),
+    FOREIGN KEY (ID_reservation) REFERENCES RESERVATION(ID),
+    FOREIGN KEY (ID_product) REFERENCES PRODUCT(ID)
 );

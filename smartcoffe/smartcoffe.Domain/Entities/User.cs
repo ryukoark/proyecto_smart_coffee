@@ -22,4 +22,7 @@ public partial class User
     public virtual ICollection<PurchaseHistory> PurchaseHistories { get; set; } = new List<PurchaseHistory>();
 
     public virtual ICollection<Shopping> Shoppings { get; set; } = new List<Shopping>();
+    
+    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
 }

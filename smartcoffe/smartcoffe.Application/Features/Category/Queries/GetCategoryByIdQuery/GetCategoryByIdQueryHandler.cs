@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Category.Queries.GetCategoryByIdQuery
 
         public async Task<CategoryDto> Handle(Queries.GetCategoryByIdQuery.GetCategoryByIdQuery request, CancellationToken cancellationToken)
         {
-            var category = await _unitOfWork.Categories.GetByIdAsync(request.Id);
+            var category = await _unitOfWork.Repository<Domain.Entities.Category>().GetByIdAsync(request.Id);
 
             if (category == null)
             {

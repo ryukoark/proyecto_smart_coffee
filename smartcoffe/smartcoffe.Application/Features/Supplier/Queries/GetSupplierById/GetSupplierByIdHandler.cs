@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Supplier.Queries.GetByIdSupplier
 
         public async Task<SupplierDto> Handle(GetSupplierByIdQuery request, CancellationToken cancellationToken)
         {
-            var supplier = await _unitOfWork.Suppliers.GetByIdAsync(request.Id);
+            var supplier = await _unitOfWork.Repository<Domain.Entities.Supplier>().GetByIdAsync(request.Id);
 
             if (supplier == null || !supplier.Status)
             {

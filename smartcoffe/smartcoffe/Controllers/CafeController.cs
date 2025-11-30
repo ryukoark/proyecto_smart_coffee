@@ -1,18 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using smartcoffe.Application.Features.Cafes.Commands;                    // ✔ Correcto
 using smartcoffe.Application.Features.Cafes.Dtos;
-
-// ✔ Importamos cada command desde su carpeta correcta
-using smartcoffe.Application.Features.Cafes.Commands.CreateCafe;
-using smartcoffe.Application.Features.Cafes.Commands.UpdateCafe;
-using smartcoffe.Application.Features.Cafes.Commands.DeleteCafe;
-
-// ✔ Queries correctas
-using smartcoffe.Application.Features.Cafes.Queries.GetAllCafesQuery;
-using smartcoffe.Application.Features.Cafes.Queries.GetCafeByIdQuery;
-
+using smartcoffe.Application.Features.Cafes.Queries.GetAllCafesQuery;   // ✔ Correcto
+// ✔ Correcto
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using smartcoffe.Application.Features.Cafes.Queries.GetCafesByIdQuery;
 
 namespace smartcoffe.Controllers
 {
@@ -54,7 +48,7 @@ namespace smartcoffe.Controllers
             if (dto == null)
                 return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
 
-            var result = await _mediator.Send(new CreateCafeCommand(dto));
+            var result = await _mediator.Send(new CreateCafe(dto));
 
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
@@ -68,7 +62,7 @@ namespace smartcoffe.Controllers
 
             dto.Id = id;
 
-            var updatedCafe = await _mediator.Send(new UpdateCafeCommand(dto));
+            var updatedCafe = await _mediator.Send(new UpdateCafe(dto));
 
             if (updatedCafe == null)
                 return NotFound($"No se pudo actualizar el café con ID {id}");
@@ -80,7 +74,7 @@ namespace smartcoffe.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var success = await _mediator.Send(new DeleteCafeCommand(id));
+            var success = await _mediator.Send(new DeleteCafe(id));
 
             if (!success)
                 return NotFound($"No se encontró un café con ID {id} para eliminar.");

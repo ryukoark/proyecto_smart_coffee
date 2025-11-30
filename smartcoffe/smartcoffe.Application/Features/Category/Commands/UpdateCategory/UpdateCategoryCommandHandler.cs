@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Category.Commands.UpdateCategory
         public async Task<bool> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
         {
             // 1. Obtener la categoría existente
-            var categoryToUpdate = await _unitOfWork.Categories.GetByIdAsync(request.Id);
+            var categoryToUpdate = await _unitOfWork.Repository<Domain.Entities.Category>().GetByIdAsync(request.Id);
 
             // 2. Validar si existe
             if (categoryToUpdate == null)
@@ -29,7 +29,7 @@ namespace smartcoffe.Application.Features.Category.Commands.UpdateCategory
             categoryToUpdate.Status = request.Status;
 
             // 4. Marcar como modificado en el repositorio
-            _unitOfWork.Categories.Update(categoryToUpdate);
+            _unitOfWork.Repository<Domain.Entities.Category>().Update(categoryToUpdate);
 
             // 5. Guardar cambios
             await _unitOfWork.CompleteAsync();

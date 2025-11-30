@@ -15,7 +15,7 @@ namespace smartcoffe.Application.Features.Product.Queries.GetAllProducts
 
         public async Task<IEnumerable<ProductListDto>> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _unitOfWork.Products.GetAllAsync();
+            var products = await _unitOfWork.Repository<Domain.Entities.Product>().GetAllAsync();
 
             // Filtramos solo los activos y mapeamos al DTO ligero
             var activeProductsDto = products

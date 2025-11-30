@@ -28,7 +28,7 @@ namespace smartcoffe.Application.Features.Product.Commands.CreateProduct
             
             // Nota: No establecemos el ID. La base de datos (SERIAL) lo generará automáticamente.
 
-            await _unitOfWork.Products.AddAsync(product);
+            await _unitOfWork.Repository<Domain.Entities.Product>().AddAsync(product);
             await _unitOfWork.CompleteAsync();
         }
     }

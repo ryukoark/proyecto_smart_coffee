@@ -4,9 +4,11 @@ using smartcoffe.Application.Features.Inventory.Commands.CreateInventory;
 using smartcoffe.Application.Features.Inventory.Commands.DeleteInventory;
 using smartcoffe.Application.Features.Inventory.Commands.UpdateInventory;
 using smartcoffe.Application.Features.Inventory.DTOs;
+using smartcoffe.Application.Features.Inventory.Queries;
 using smartcoffe.Application.Features.Inventory.Queries.GetAllInventoriesQuery;
 using smartcoffe.Application.Features.Inventory.Queries.GetInventoryByIdQuery;
 using System.Threading.Tasks;
+
 
 namespace smartcoffe.Controllers
 {

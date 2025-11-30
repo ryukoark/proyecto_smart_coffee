@@ -27,7 +27,7 @@ namespace smartcoffe.Application.Features.Category.Commands.CreateCategory
 
             // 2. Agregar la entidad al repositorio
             // El repositorio Categories debe haber sido definido en IUnitOfWork y UnitOfWork.
-            await _unitOfWork.Categories.AddAsync(category);
+            await _unitOfWork.Repository<Domain.Entities.Category>().AddAsync(category);
 
             // 3. Guardar cambios en la base de datos (Ejecutar transacción)
             await _unitOfWork.CompleteAsync();

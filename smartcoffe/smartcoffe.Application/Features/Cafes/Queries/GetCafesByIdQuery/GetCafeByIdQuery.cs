@@ -1,7 +1,7 @@
 using MediatR;
 using smartcoffe.Application.Features.Cafes.Dtos;
 
-namespace smartcoffe.Application.Features.Cafes.Queries.GetCafeByIdQuery
+namespace smartcoffe.Application.Features.Cafes.Queries.GetCafesByIdQuery
 {
     public class GetCafeByIdQuery : IRequest<CafeGetDto>
     {

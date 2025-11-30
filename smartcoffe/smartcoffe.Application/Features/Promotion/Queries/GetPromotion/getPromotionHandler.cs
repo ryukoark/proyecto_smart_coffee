@@ -16,7 +16,7 @@ public class GetAllPromotionsHandler : IRequestHandler<GetAllPromotionsQuery, IE
 
     public async Task<IEnumerable<PromotionDTo>> Handle(GetAllPromotionsQuery request, CancellationToken cancellationToken)
     {
-        var promotions = await _unitOfWork.Promotions.GetAllAsync();
+        var promotions = await _unitOfWork.Repository<Domain.Entities.Promotion>().GetAllAsync();
 
         var activePromotions = promotions
             .Where(p => p.Status == true)

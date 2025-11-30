@@ -20,7 +20,7 @@ internal sealed class GetPurchaseHistoryByListQueryHandler : IRequestHandler<Get
 
 	public async Task<IEnumerable<PurchaseHistoryListDto>> Handle(GetPurchaseHistoryByListQuery request, CancellationToken cancellationToken)
 	{
-		var all = await _unitOfWork.PurchaseHistories.GetAllAsync();
+		var all = await _unitOfWork.Repository<Domain.Entities.PurchaseHistory>().GetAllAsync();
 
 		var list = all.Select(e => new PurchaseHistoryListDto
 		{
