@@ -28,6 +28,10 @@ public partial class SmartcoffeDbContext : DbContext
     public virtual DbSet<Promotion> Promotions { get; set; }
 
     public virtual DbSet<PurchaseHistory> PurchaseHistories { get; set; }
+    
+    public virtual DbSet<Reservation> Reservations { get; set; }
+
+    public virtual DbSet<ReservationDetail> ReservationDetails { get; set; }
 
     public virtual DbSet<Shopping> Shoppings { get; set; }
 
@@ -118,6 +122,7 @@ public partial class SmartcoffeDbContext : DbContext
             entity.ToTable("product");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Expirationdate).HasColumnName("expirationdate");
             entity.Property(e => e.IdCategory).HasColumnName("id_category");
             entity.Property(e => e.IdPromotion).HasColumnName("id_promotion");
@@ -186,6 +191,62 @@ public partial class SmartcoffeDbContext : DbContext
             entity.HasOne(d => d.IduserNavigation).WithMany(p => p.PurchaseHistories)
                 .HasForeignKey(d => d.Iduser)
                 .HasConstraintName("purchase_history_iduser_fkey");
+        });
+
+        modelBuilder.Entity<Reservation>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("reservation_pkey");
+
+            entity.ToTable("reservation");
+
+            entity.HasIndex(e => e.ReservationCode, "reservation_reservation_code_key").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IdCafe).HasColumnName("id_cafe");
+            entity.Property(e => e.IdUser).HasColumnName("id_user");
+            entity.Property(e => e.Notes).HasColumnName("notes");
+            entity.Property(e => e.ReservationCode)
+                .HasMaxLength(50)
+                .HasColumnName("reservation_code");
+            entity.Property(e => e.ReservationDate).HasColumnName("reservation_date");
+            entity.Property(e => e.ReservationStatus)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'PENDING'::character varying")
+                .HasColumnName("reservation_status");
+
+            entity.HasOne(d => d.IdCafeNavigation).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.IdCafe)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("reservation_id_cafe_fkey");
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Reservations)
+                .HasForeignKey(d => d.IdUser)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("reservation_id_user_fkey");
+        });
+
+        modelBuilder.Entity<ReservationDetail>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("reservation_detail_pkey");
+
+            entity.ToTable("reservation_detail");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.DetailDescription)
+                .HasMaxLength(255)
+                .HasColumnName("detail_description");
+            entity.Property(e => e.IdProduct).HasColumnName("id_product");
+            entity.Property(e => e.IdReservation).HasColumnName("id_reservation");
+            entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+            entity.HasOne(d => d.IdProductNavigation).WithMany(p => p.ReservationDetails)
+                .HasForeignKey(d => d.IdProduct)
+                .HasConstraintName("reservation_detail_id_product_fkey");
+
+            entity.HasOne(d => d.IdReservationNavigation).WithMany(p => p.ReservationDetails)
+                .HasForeignKey(d => d.IdReservation)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("reservation_detail_id_reservation_fkey");
         });
 
         modelBuilder.Entity<Shopping>(entity =>
@@ -295,7 +356,6 @@ public partial class SmartcoffeDbContext : DbContext
                 .HasDefaultValue(true)
                 .HasColumnName("status");
         });
-
         OnModelCreatingPartial(modelBuilder);
     }
 

@@ -16,4 +16,7 @@ public partial class Cafe
     public bool Status { get; set; }
 
     public virtual ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
+    
+    public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
 }
