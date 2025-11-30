@@ -2,7 +2,7 @@ using MediatR;
 using smartcoffe.Application.Features.Cafes.Dtos;
 using smartcoffe.Domain.Interfaces;
 
-namespace smartcoffe.Application.Features.Cafes.Queries.GetCafeByIdQuery
+namespace smartcoffe.Application.Features.Cafes.Queries.GetCafesByIdQuery
 {
     public class GetCafeByIdQueryHandler : IRequestHandler<GetCafeByIdQuery, CafeGetDto>
     {
@@ -15,13 +15,15 @@ namespace smartcoffe.Application.Features.Cafes.Queries.GetCafeByIdQuery
 
         public async Task<CafeGetDto> Handle(GetCafeByIdQuery request, CancellationToken cancellationToken)
         {
-            var cafe = await _unitOfWork.Cafes.GetByIdAsync(request.Id);
+            // Repositorio genérico
+            var cafeRepo = _unitOfWork.Repository<Domain.Entities.Cafe>();
+
+            var cafe = await cafeRepo.GetByIdAsync(request.Id);
 
             if (cafe == null)
-                return null!; // Opcional: lanzar excepción NotFound
+                return null!;
 
-            // Mapeo manual entidad → DTO
-            var cafeDto = new CafeGetDto
+            return new CafeGetDto
             {
                 Id = cafe.Id,
                 Name = cafe.Name,
@@ -29,8 +31,6 @@ namespace smartcoffe.Application.Features.Cafes.Queries.GetCafeByIdQuery
                 Company = cafe.Company,
                 Status = cafe.Status ? "Active" : "Inactive"
             };
-
-            return cafeDto;
         }
     }
 }
