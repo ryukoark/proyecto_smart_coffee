@@ -72,6 +72,19 @@ builder.Services.AddSwaggerGen(c =>
 // Agregar soporte para Controllers
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    // Define una política de nombre "AllowFrontend"
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            // Reemplaza 5173 por el puerto de tu React si es diferente
+            policy.WithOrigins("http://localhost:5173") 
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials(); // Importante si usas cookies o JWT en headers
+        });
+});
 // LÓGICA DE SERVICIOS PERSONALIZADA
 builder.Services.AddAppServices(builder.Configuration, builder.Environment);
 
@@ -91,6 +104,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowFrontend");
 app.UseAuthorization();
 
 app.UseHangfireDashboard(); 
