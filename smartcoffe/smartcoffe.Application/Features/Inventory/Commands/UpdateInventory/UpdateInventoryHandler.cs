@@ -1,21 +1,11 @@
 using MediatR;
 using smartcoffe.Application.Features.Inventory.DTOs;
 
-namespace smartcoffe.Application.Features.Inventory.Commands
+namespace smartcoffe.Application.Features.Inventory.Commands.UpdateInventory
 {
-    public class UpdateInventory : IRequest<InventoryGetDto>
+    public class UpdateInventoryHandler : IRequestHandler<UpdateInventoryCommand, InventoryGetDto>
     {
-        public InventoryUpdateDto Dto { get; }
-
-        public UpdateInventory(InventoryUpdateDto dto)
-        {
-            Dto = dto;
-        }
-    }
-
-    public class UpdateInventoryHandler : IRequestHandler<UpdateInventory, InventoryGetDto>
-    {
-        public async Task<InventoryGetDto> Handle(UpdateInventory request, CancellationToken cancellationToken)
+        public async Task<InventoryGetDto> Handle(UpdateInventoryCommand request, CancellationToken cancellationToken)
         {
             var updatedInventory = new InventoryGetDto
             {
