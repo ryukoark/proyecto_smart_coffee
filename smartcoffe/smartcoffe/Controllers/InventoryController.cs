@@ -1,10 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Features.Inventory.Commands;
+using smartcoffe.Application.Features.Inventory.Commands.CreateInventory;
+using smartcoffe.Application.Features.Inventory.Commands.DeleteInventory;
+using smartcoffe.Application.Features.Inventory.Commands.UpdateInventory;
 using smartcoffe.Application.Features.Inventory.DTOs;
 using smartcoffe.Application.Features.Inventory.Queries;
 using smartcoffe.Application.Features.Inventory.Queries.GetAllInventoriesQuery;
 using smartcoffe.Application.Features.Inventory.Queries.GetInventoryByIdQuery;
+using System.Threading.Tasks;
 
 
 namespace smartcoffe.Controllers
@@ -22,7 +25,7 @@ namespace smartcoffe.Controllers
 
         // GET: api/inventory
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<InventoryListDto>>> GetAll()
         {
             var result = await _mediator.Send(new GetAllInventoriesQuery());
             return Ok(result);
@@ -30,34 +33,49 @@ namespace smartcoffe.Controllers
 
         // GET: api/inventory/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<InventoryGetDto>> GetById(int id)
         {
             var result = await _mediator.Send(new GetInventoryByIdQuery(id));
-            return result == null ? NotFound() : Ok(result);
+            return result == null ? NotFound($"No se encontró inventario con ID {id}") : Ok(result);
         }
 
         // POST: api/inventory
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] InventoryCreateDto dto)
+        public async Task<ActionResult<InventoryGetDto>> Create([FromBody] InventoryCreateDto dto)
         {
-            var result = await _mediator.Send(new CreateInventory(dto));
+            if (dto == null)
+                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
+
+            var result = await _mediator.Send(new CreateInventoryCommand(dto));
+
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        // PUT: api/inventory
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] InventoryUpdateDto dto)
+        // PUT: api/inventory/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult<InventoryGetDto>> Update(int id, [FromBody] InventoryUpdateDto dto)
         {
-            var result = await _mediator.Send(new UpdateInventory(dto));
-            return result == null ? NotFound() : Ok(result);
+            if (dto == null)
+                return BadRequest("El cuerpo de la solicitud no puede estar vacío.");
+
+            dto.Id = id;
+
+            var result = await _mediator.Send(new UpdateInventoryCommand(dto));
+
+            return result == null
+                ? NotFound($"No se pudo actualizar el inventario con ID {id}")
+                : Ok(result);
         }
 
         // DELETE: api/inventory/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _mediator.Send(new DeleteInventory(id));
-            return !success ? NotFound() : Ok($"Inventario {id} eliminado.");
+            var success = await _mediator.Send(new DeleteInventoryCommand(id));
+
+            return !success
+                ? NotFound($"Inventario con ID {id} no encontrado.")
+                : Ok($"Inventario {id} eliminado correctamente.");
         }
     }
 }
