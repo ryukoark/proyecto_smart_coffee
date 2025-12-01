@@ -1,12 +1,35 @@
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using smartcoffe.Application.Extension;
 using smartcoffe.Infrastructure.DependencyInjection;
-using Microsoft.Extensions.Configuration; 
 using Microsoft.OpenApi.Models; 
-using Microsoft.AspNetCore.Builder; 
-using Microsoft.AspNetCore.Mvc; // Aseguramos este using si lo necesitas
-using smartcoffe.Configuration; // El using para tus extensiones personalizadas
+using smartcoffe.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// === Agregar autenticación JWT ===
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    var cfg = builder.Configuration;
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = cfg["Jwt:Issuer"],
+        ValidAudience = cfg["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(cfg["Jwt:Key"] ?? string.Empty)),
+        ClockSkew = TimeSpan.Zero
+    };
+});
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -20,7 +43,7 @@ builder.Services.AddProjectServices();
 // Llama al registro de Infraestructura (DbContext de PostgreSQL y UnitOfWork)
 builder.Services.AddInfrastructure(builder.Configuration);
 
-// ⭐ CONFIGURACIÓN DE SWAGGER ⭐
+// CONFIGURACIÓN DE SWAGGER
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -35,8 +58,12 @@ builder.Services.AddSwaggerGen(c =>
 // Agregar soporte para Controllers
 builder.Services.AddControllers();
 
-// ⭐ LÓGICA DE SERVICIOS PERSONALIZADA (DEBE IR ANTES DE app.Build()) ⭐
+// LÓGICA DE SERVICIOS PERSONALIZADA (DEBE IR ANTES DE app.Build())
 builder.Services.AddAppServices(builder.Configuration, builder.Environment);
+
+// Registrar servicios existentes
+builder.Services.AddProjectServices();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 
 // --- 2. CONSTRUCCIÓN Y CONFIGURACIÓN DEL PIPELINE ---
@@ -46,7 +73,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    // ⭐ MIDDLEWARE DE SWAGGER ⭐
+    // MIDDLEWARE DE SWAGGER
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -55,9 +82,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
 app.UseAuthorization();
 
-// ⭐ MIDDLEWARE PERSONALIZADO (DEBE IR DESPUÉS DE app.Build()) ⭐
+// MIDDLEWARE PERSONALIZADO
 app.UseApp();
 
 // Mapeo de Endpoints

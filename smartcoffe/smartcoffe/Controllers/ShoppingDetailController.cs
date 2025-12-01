@@ -1,42 +1,31 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using MediatR;
 using smartcoffe.Application.DTOs.ShoppingDetail;
-using smartcoffe.Domain.Interfaces; // Asegúrate de que este using esté presente
 
-namespace smartcoffe.Application.Features.ShoppingDetail.Commands.UpdateShoppingDetail
+namespace smartcoffe.Controllers
 {
-    public class UpdateShoppingDetailCommand : IRequest<bool>
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ShoppingDetailController : ControllerBase
     {
-        public ShoppingDetailCreateDto ShoppingDetail { get; set; }
+        private readonly IMediator _mediator;
+        public ShoppingDetailController(IMediator mediator) => _mediator = mediator;
 
-        public UpdateShoppingDetailCommand(ShoppingDetailCreateDto shoppingDetail)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            ShoppingDetail = shoppingDetail;
-        }
-    }
-
-    public class UpdateShoppingDetailCommandHandler : IRequestHandler<UpdateShoppingDetailCommand, bool>
-    {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public UpdateShoppingDetailCommandHandler(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = unitOfWork;
+            var result = await _mediator.Send(new Application.Features.ShoppingDetail.Queries.GetShoppingDetailByIdQuery(id));
+            if (result == null) return NotFound();
+            return Ok(result);
         }
 
-        public async Task<bool> Handle(UpdateShoppingDetailCommand request, CancellationToken cancellationToken)
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Create([FromBody] ShoppingDetailCreateDto dto)
         {
-            var shoppingDetail = await _unitOfWork.ShoppingDetails.GetByIdAsync(request.ShoppingDetail.IdShopping);
-            if (shoppingDetail == null) return false;
-
-            shoppingDetail.IdProduct = request.ShoppingDetail.IdProduct;
-            shoppingDetail.Quantity = request.ShoppingDetail.Quantity;
-            shoppingDetail.Amount = request.ShoppingDetail.Price;
-            shoppingDetail.Status = request.ShoppingDetail.Status;
-
-            _unitOfWork.ShoppingDetails.Update(shoppingDetail);
-            await _unitOfWork.CompleteAsync();
-
-            return true;
+            var id = await _mediator.Send(new Application.Features.ShoppingDetail.Commands.CreateShoppingDetail.CreateShoppingDetailCommand(dto));
+            return CreatedAtAction(nameof(GetById), new { id }, null);
         }
     }
 }
