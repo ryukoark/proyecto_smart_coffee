@@ -19,6 +19,7 @@ namespace smartcoffe.Infrastructure.DependencyInjection
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddHttpClient<IPaymentGatewayService, IzipayPaymentService>();
 
             return services;
         }
