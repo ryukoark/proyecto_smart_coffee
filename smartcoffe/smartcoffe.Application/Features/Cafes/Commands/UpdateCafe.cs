@@ -1,11 +1,21 @@
 using MediatR;
 using smartcoffe.Application.Features.Cafes.Dtos;
 
-namespace smartcoffe.Application.Features.Cafes.Commands.UpdateCafe
+namespace smartcoffe.Application.Features.Cafes.Commands
 {
-    public class UpdateCafeHandler : IRequestHandler<UpdateCafeCommand, CafeGetDto>
+    public class UpdateCafe : IRequest<CafeGetDto>
     {
-        public async Task<CafeGetDto> Handle(UpdateCafeCommand request, CancellationToken cancellationToken)
+        public CafeUpdateDto Dto { get; }
+
+        public UpdateCafe(CafeUpdateDto dto)
+        {
+            Dto = dto;
+        }
+    }
+
+    public class UpdateCafeHandler : IRequestHandler<UpdateCafe, CafeGetDto>
+    {
+        public async Task<CafeGetDto> Handle(UpdateCafe request, CancellationToken cancellationToken)
         {
             var updatedCafe = new CafeGetDto
             {

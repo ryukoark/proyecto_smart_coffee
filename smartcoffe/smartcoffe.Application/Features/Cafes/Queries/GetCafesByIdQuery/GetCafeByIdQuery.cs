@@ -7,7 +7,7 @@ namespace smartcoffe.Application.Features.Cafes.Queries.GetCafesByIdQuery
     {
         public int Id { get; set; }
 
-        public GetCafeByIdQuery(int id)
+        public GetCafeByIdQuery(int id)   // ✔ CONSTRUCTOR NECESARIO
         {
             Id = id;
         }
