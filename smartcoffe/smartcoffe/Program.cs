@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Configuration;
 using Hangfire;
 using Hangfire.PostgreSql;
+using smartcoffe.Domain.Interfaces;
+using smartcoffe.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ builder.Services.AddProjectServices();
 
 // Llama al registro de Infraestructura (DbContext de PostgreSQL y UnitOfWork)
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddScoped<IExcelService, ExcelService>();
+builder.Services.AddInfrastructureServices();
+
 
 // CONFIGURACIÓN DE HANGFIRE
 builder.Services.AddHangfire(configuration => configuration
