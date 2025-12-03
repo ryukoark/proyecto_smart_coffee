@@ -9,6 +9,9 @@ using Hangfire;
 using Hangfire.PostgreSql;
 using smartcoffe.Domain.Interfaces;
 using smartcoffe.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +30,32 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddInfrastructureServices();
 
+// CONFIGURACIÓN DE JWT
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+var key = jwtSettings.GetValue<string>("Key") ?? throw new InvalidOperationException("Jwt:Key not found.");
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings.GetValue<string>("Issuer"),
+        ValidAudience = jwtSettings.GetValue<string>("Audience"),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+    };
+});
+
+// IMPORTANTE: Asegúrate de añadir el servicio de Autorización.
+builder.Services.AddAuthorization();
+
 
 // CONFIGURACIÓN DE HANGFIRE
 builder.Services.AddHangfire(configuration => configuration
@@ -38,7 +67,7 @@ builder.Services.AddHangfire(configuration => configuration
 // Añade el servidor de Hangfire (quien procesa las tareas en segundo plano)
 builder.Services.AddHangfireServer();
 
-// CONFIGURACIÓN DE SWAGGER
+// CONFIGURACIÓN DE SWAGGER (Asegurando que soporte la entrada de JWT)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -111,7 +140,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
-app.UseAuthorization();
+
+// IMPORTANTE: Los middlewares de autenticación y autorización deben ir aquí,
+// antes de app.MapControllers().
+app.UseAuthentication();
+app.UseAuthorization(); // Mantenemos este uso aquí para el pipeline global
 
 app.UseHangfireDashboard(); 
 HangfireJobScheduler.ScheduleRecurringJobs(app);
