@@ -2,10 +2,10 @@ namespace smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Dt
 {
     public class CafeUpdateDto
     {
-        public int Id { get; set; } // ✅ agregado para identificar el café a actualizar
-        public string Name { get; set; }
-        public string Adress { get; set; }
-        public string Company { get; set; }
-        public string Status { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Address { get; set; } // <- doble d
+        public string? Company { get; set; }
+        public bool Status { get; set; }
     }
 }

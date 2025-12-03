@@ -11,4 +11,5 @@ namespace smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Co
             Id = id;
         }
     }
+
 }
