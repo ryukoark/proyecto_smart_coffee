@@ -12,7 +12,6 @@ namespace smartcoffe.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize] // Requiere autenticación para todas las acciones en este controlador
 public class PromotionController : ControllerBase
 {
     private readonly IMediator _mediator;

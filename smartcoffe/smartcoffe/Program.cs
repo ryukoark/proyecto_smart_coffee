@@ -15,29 +15,31 @@ var builder = WebApplication.CreateBuilder(args);
 // PASO CLAVE 1: Configuración de Autenticación JWT Bearer
 // Esto resuelve el error "No authenticationScheme was specified..."
 builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuerSigningKey = true,
-        // Usar ?? para asegurar que haya una clave, si no lanza una excepción más clara
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key not found in configuration"))),
-        
-        ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        
-        ValidateLifetime = true,
-        // Define el tipo de claim que contiene el rol, necesario para [Authorize(Roles = "...")]
-        RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role" 
-    };
-});
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            // Usar ?? para asegurar que haya una clave, si no lanza una excepción más clara
+// Asegúrate de que esta línea esté leyendo correctamente el valor:
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ??
+                                                                               throw new InvalidOperationException(
+                                                                                   "Jwt:Key not found in configuration"))),
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+
+            ValidateLifetime = true,
+            // Define el tipo de claim que contiene el rol, necesario para [Authorize(Roles = "...")]
+            RoleClaimType = "role"
+        };
+    });
 
 // PASO CLAVE 2: Registro faltante para IInventoryService (resuelve el error de DI inicial)
 // Se asume que la clase de implementación se llama 'InventoryService'
@@ -51,7 +53,6 @@ builder.Services.AddScoped<IExcelService, ExcelService>();
 
 // --- Extensiones personalizadas ---
 builder.Services.AddSwaggerDocumentation();
-builder.Services.AddHangfireConfiguration(builder.Configuration);
 builder.Services.AddCorsConfiguration();
 builder.Services.AddControllersConfiguration();
 
@@ -69,10 +70,9 @@ app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 
 // PASO CLAVE 3: El orden es CRÍTICO: Authentication debe ir ANTES de Authorization
-app.UseAuthentication(); 
+app.UseAuthentication();
 app.UseAuthorization(); // Esta línea ahora funcionará correctamente
 
-app.UseHangfireDashboard();
 app.UseApp();
 
 app.MapControllers();

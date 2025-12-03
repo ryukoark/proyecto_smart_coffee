@@ -38,7 +38,7 @@ namespace smartcoffe.Infrastructure.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
-                new Claim(ClaimTypes.Role, user.Rrole) // <--- ¡NUEVO Y CRUCIAL!
+                new Claim("role", user.Rrole)
             };
 
             var token = new JwtSecurityToken(

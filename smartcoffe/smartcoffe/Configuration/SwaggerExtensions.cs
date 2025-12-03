@@ -20,10 +20,11 @@ public static class SwaggerExtensions
             {
                 Name = "Authorization",
                 Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
+                Scheme = "bearer", // <-- Esto define el tipo de esquema
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                Description = "Bearer {token}"
+                // Mejoramos la descripción para el usuario de Swagger
+                Description = "Bearer {token}" 
             };
 
             c.AddSecurityDefinition("Bearer", securityScheme);

@@ -10,7 +10,6 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/reports")]
-    [Authorize(Roles = "Administrador")] // Solo Administrador puede acceder a Reportes
     public class ReportsController : ControllerBase
     {
         private readonly IMediator _mediator;
