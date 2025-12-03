@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.CreateCategory;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.DeleteCategory;
@@ -11,6 +12,7 @@ namespace smartcoffe.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] // Requiere autenticación para todas las acciones en este controlador
     public class CategoryController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,7 +22,7 @@ namespace smartcoffe.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/Category
+        // GET: api/Category [Authorize] // Requiere autenticación para todas las acciones en este controlador
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
         {
@@ -29,7 +31,7 @@ namespace smartcoffe.Controllers
             return Ok(categories);
         }
 
-        // GET: api/Category/5
+        // GET: api/Category/5 - Accesible por Cliente y Administrador
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryDto>> GetById(int id)
         {
@@ -39,8 +41,9 @@ namespace smartcoffe.Controllers
             return Ok(category);
         }
 
-        // POST: api/Category
+        // POST: api/Category  - Solo Administrador
         [HttpPost]
+        [Authorize(Roles = "Administrador")] // Sobreescribe la política a nivel de clase
         public async Task<ActionResult<int>> Create([FromBody] CreateCategoryDto createCategoryDto)
         {
             // Mapeo manual de DTO a Command
@@ -58,8 +61,9 @@ namespace smartcoffe.Controllers
             return CreatedAtAction(nameof(GetById), new { id = categoryId }, categoryId);
         }
 
-        // PUT: api/Category/5
+        // PUT: api/Category/5 - Solo Administrador
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateCategoryDto updateCategoryDto)
         {
             if (id != updateCategoryDto.Id)
@@ -85,8 +89,9 @@ namespace smartcoffe.Controllers
             return NoContent(); // 204 No Content es estándar para actualizaciones exitosas
         }
 
-        // DELETE: api/Category/5
+        // DELETE: api/Category/5 - Solo Administrador
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             var command = new DeleteCategoryCommand { Id = id };
