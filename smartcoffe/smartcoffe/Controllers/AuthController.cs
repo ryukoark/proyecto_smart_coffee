@@ -5,7 +5,6 @@ using smartcoffe.Domain.Entities;
 
 namespace smartcoffe.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
