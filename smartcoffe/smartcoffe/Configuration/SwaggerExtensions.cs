@@ -9,31 +9,31 @@ public static class SwaggerExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "Smart Coffee API",
-                Version = "v1",
-                Description = "API para Smart Coffee"
-            });
-
-            var securityScheme = new OpenApiSecurityScheme
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer", // <-- Esto define el tipo de esquema
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer",
                 BearerFormat = "JWT",
                 In = ParameterLocation.Header,
-                // Mejoramos la descripción para el usuario de Swagger
-                Description = "Bearer {token}" 
-            };
+                Description = "Ingresa 'Bearer' seguido de tu token JWT."
+            });
 
-            c.AddSecurityDefinition("Bearer", securityScheme);
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-                { securityScheme, new string[] {} }
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] {}
+                }
             });
         });
-    
         return services;
     }
 

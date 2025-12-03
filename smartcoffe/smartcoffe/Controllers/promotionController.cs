@@ -12,6 +12,7 @@ namespace smartcoffe.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize] // Accesible por ambos roles de consumidor
 public class PromotionController : ControllerBase
 {
     private readonly IMediator _mediator;

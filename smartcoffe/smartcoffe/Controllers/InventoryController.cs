@@ -15,6 +15,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class InventoryController : ControllerBase
     {
         private readonly IMediator _mediator;

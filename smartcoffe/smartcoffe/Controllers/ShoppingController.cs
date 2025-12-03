@@ -9,6 +9,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] 
     public class ShoppingController : ControllerBase
     {
         private readonly IMediator _mediator;

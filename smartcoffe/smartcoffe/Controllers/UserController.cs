@@ -12,6 +12,7 @@ namespace smartcoffe.Controllers // O el namespace que uses para tus controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrador")]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;

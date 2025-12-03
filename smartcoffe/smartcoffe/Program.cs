@@ -1,8 +1,8 @@
 using Hangfire;
-using smartcoffe.Application.Extension;
+using smartcoffe.Application.Extension; // Asumo que contiene AddProjectServices
 using smartcoffe.Configuration;
 using smartcoffe.Domain.Interfaces;
-using smartcoffe.Infrastructure.DependencyInjection;
+using smartcoffe.Infrastructure.DependencyInjection; // Asumo que contiene AddInfrastructure/AddInfrastructureServices
 using smartcoffe.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,70 +10,66 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---------------------- SERVICIOS ------------------------
+// ======================== REGISTRO DE SERVICIOS (builder.Services) ========================
 
-// PASO CLAVE 1: Configuración de Autenticación JWT Bearer
-// Esto resuelve el error "No authenticationScheme was specified..."
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            // Usar ?? para asegurar que haya una clave, si no lanza una excepción más clara
-// Asegúrate de que esta línea esté leyendo correctamente el valor:
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ??
-                                                                               throw new InvalidOperationException(
-                                                                                   "Jwt:Key not found in configuration"))),
-            ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+// 1. Servicios del Framework (controladores, endpoints)
+builder.Services.AddControllersConfiguration();
+builder.Services.AddEndpointsApiExplorer(); // Asegura la compatibilidad con Swagger
 
-            ValidateAudience = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-
-            ValidateLifetime = true,
-            // Define el tipo de claim que contiene el rol, necesario para [Authorize(Roles = "...")]
-            RoleClaimType = "role"
-        };
-    });
-
-// PASO CLAVE 2: Registro faltante para IInventoryService (resuelve el error de DI inicial)
-// Se asume que la clase de implementación se llama 'InventoryService'
-builder.Services.AddScoped<IInventoryService, InventoryService>();
-
-// Registros originales
-builder.Services.AddProjectServices();
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddInfrastructureServices();
-builder.Services.AddScoped<IExcelService, ExcelService>();
-
-// --- Extensiones personalizadas ---
+// 2. Seguridad y Documentación
 builder.Services.AddSwaggerDocumentation();
 builder.Services.AddCorsConfiguration();
-builder.Services.AddControllersConfiguration();
 
+// 3. Autenticación y Autorización (Usando la extensión JwtExtensions)
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
+// 4. Background Job Processing (Usando la extensión HangfireExtensions)
+//builder.Services.AddHangfireConfiguration(builder.Configuration);
+
+// 5. Servicios de Infraestructura y Negocio
+builder.Services.AddProjectServices(); // Lógica de la capa Application
+builder.Services.AddInfrastructure(builder.Configuration); // Configuración de la persistencia
+builder.Services.AddInfrastructureServices(); // Implementaciones de servicios de dominio
+
+// Servicios que fueron explícitamente registrados en tu código parcial
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IExcelService, ExcelService>();
+
+// Servicios generales de la aplicación (extensión ServiceRegistrationExtensions)
 builder.Services.AddAppServices(builder.Configuration, builder.Environment);
 
-// ---------------------- APP ------------------------------
+
+// =============================== MIDDLEWARE (app) ===============================
+
 var app = builder.Build();
 
+// Configuración del Pipeline de Peticiones HTTP.
 if (app.Environment.IsDevelopment())
 {
+    // Habilita Swagger y Swagger UI (desde SwaggerExtensions)
     app.UseSwaggerDocumentation();
 }
 
 app.UseHttpsRedirection();
+
+// 1. CORS Middleware (debe ir antes de UseRouting/MapControllers)
 app.UseCors("AllowFrontend");
 
-// PASO CLAVE 3: El orden es CRÍTICO: Authentication debe ir ANTES de Authorization
-app.UseAuthentication();
-app.UseAuthorization(); // Esta línea ahora funcionará correctamente
+// 2. Hangfire Dashboard (se activa la interfaz web)
+//app.UseHangfireDashboard();
 
+// 3. Autenticación y Autorización (EL ORDEN ES CRÍTICO: Auth debe ir antes de Authz)
+app.UseAuthentication();
+app.UseAuthorization(); 
+
+// 4. Custom Application Middleware (desde ServiceRegistrationExtensions)
 app.UseApp();
 
+// 5. Programar Tareas Recurrentes de Hangfire
+// Esto debe ejecutarse después de app.Build() y de que los servicios estén configurados.
+//HangfireJobScheduler.ScheduleRecurringJobs(app);
+
+// 6. Mapping (siempre debe ir al final)
 app.MapControllers();
+
 app.Run();

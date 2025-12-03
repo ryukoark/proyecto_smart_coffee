@@ -7,6 +7,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Administrador,Cliente")] // Accesible por ambos roles de consumidor
     public class PaymentsController : ControllerBase
     {
         private readonly IMediator _mediator;
