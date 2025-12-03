@@ -1,0 +1,10 @@
+# Carpetas de compilación
+**/bin/
+**/obj/
+# Carpetas de configuración
+.vs/
+.vscode/
+.idea/
+# Archivos de la solución
+*.sln.DotSettings.user
+appsettings.Development.json
