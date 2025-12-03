@@ -20,7 +20,7 @@ namespace smartcoffe.Infrastructure.DependencyInjection
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddHttpClient<IPaymentGatewayService, IzipayPaymentService>();
-
+            services.AddScoped<IInventoryService, smartcoffe.Infrastructure.Services.InventoryService>();
             return services;
         }
     }
