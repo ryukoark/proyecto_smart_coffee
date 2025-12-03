@@ -114,6 +114,7 @@ app.UseCors("AllowFrontend");
 app.UseAuthorization();
 
 app.UseHangfireDashboard(); 
+HangfireJobScheduler.ScheduleRecurringJobs(app);
 
 app.UseApp();
 
