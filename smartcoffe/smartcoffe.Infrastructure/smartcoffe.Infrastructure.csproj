@@ -11,9 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
-
       <PackageReference Include="jose-jwt" Version="5.2.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+      <PackageReference Include="ClosedXML" Version="0.105.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
 
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
