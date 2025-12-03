@@ -26,6 +26,7 @@ using smartcoffe.Application.Features.modulo_usuarios.User.Commands.UpdateUser;
 using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetAllUsersQuery;
 using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetUserByIdQuery;
 using smartcoffe.Application.Features.modulo_usuarios.User.Commands;
+using smartcoffe.Application.Features.Reports.DailyReservations; // Funcionalidad Hangfire
 
 namespace smartcoffe.Application.Extension;
 
@@ -80,8 +81,12 @@ public static class ProjectServicesExtensions
                 // Queries
                 cfg.RegisterServicesFromAssembly(typeof(GetAllUsersQueryHandler).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(GetUserByIdQueryHandler).Assembly);
-
+                
+                // --- Handlers de Reportes (Añadido) ---
+                cfg.RegisterServicesFromAssembly(typeof(GenerateDailyReservationsReportHandler).Assembly);
+                
             });
             return services;
         }
 }
+                
