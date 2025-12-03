@@ -7,7 +7,7 @@ using smartcoffe.Application.Features.modulo_usuarios.User.DTOs;
 using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetAllUsersQuery;
 using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetUserByIdQuery;
 
-namespace smartcoffe.API.Controllers // O el namespace que uses para tus controllers
+namespace smartcoffe.Controllers // O el namespace que uses para tus controllers
 {
     [Route("api/[controller]")]
     [ApiController]
