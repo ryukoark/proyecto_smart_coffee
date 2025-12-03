@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using smartcoffe.Application.Features.Payments.Commands.CreatePayment;
 
 namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Roles = "Administrador,Cliente")] // Accesible por ambos roles de consumidor
     public class PaymentsController : ControllerBase
     {
         private readonly IMediator _mediator;

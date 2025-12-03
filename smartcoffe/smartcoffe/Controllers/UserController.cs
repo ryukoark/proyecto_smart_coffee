@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.modulo_usuarios.User.Commands.CreateUser;
 using smartcoffe.Application.Features.modulo_usuarios.User.Commands.DeleteUser;
@@ -11,6 +12,7 @@ namespace smartcoffe.Controllers // O el namespace que uses para tus controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrador")] // Solo Administrador tiene acceso a nivel de controlador
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;

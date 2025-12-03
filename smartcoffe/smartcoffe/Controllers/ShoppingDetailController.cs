@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.modulo_compras.ShoppingDetail.Commands;
 using smartcoffe.Application.Features.modulo_compras.ShoppingDetail.DTOs;
@@ -8,6 +9,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Acceso base requiere autenticación
     public class ShoppingDetailController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -40,8 +42,9 @@ namespace smartcoffe.Controllers
             return Ok(result);
         }
 
-        // POST: api/shoppingdetail
+        // POST - Solo Administrador
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<int>> CreateShoppingDetail([FromBody] ShoppingDetailCreateDto dto)
         {
             var command = new CreateShoppingDetailCommand(dto);
@@ -50,8 +53,9 @@ namespace smartcoffe.Controllers
             return CreatedAtAction(nameof(GetShoppingDetailById), new { id = shoppingDetailId }, shoppingDetailId);
         }
 
-        // PUT: api/shoppingdetail/{id}
+        // PUT - Solo Administrador
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> UpdateShoppingDetail(int id, [FromBody] ShoppingDetailCreateDto dto)
         {
             var command = new UpdateShoppingDetailCommand(id, dto);
@@ -63,8 +67,9 @@ namespace smartcoffe.Controllers
             return NoContent();
         }
 
-        // DELETE: api/shoppingdetail/{id}
+        // DELETE - Solo Administrador
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> DeleteShoppingDetail(int id)
         {
             var command = new DeleteShoppingDetailCommand(id); // Necesitas implementar este command

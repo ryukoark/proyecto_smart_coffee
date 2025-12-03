@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Queries;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Commands.CreateInventory;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Commands.DeleteInventory;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Commands.UpdateInventory;
@@ -14,6 +15,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Acceso base requiere autenticación
     public class InventoryController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -39,8 +41,9 @@ namespace smartcoffe.Controllers
             return result == null ? NotFound($"No se encontró inventario con ID {id}") : Ok(result);
         }
 
-        // POST: api/inventory
+        // POST - Solo Administrador
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<InventoryGetDto>> Create([FromBody] InventoryCreateDto dto)
         {
             if (dto == null)
@@ -51,8 +54,9 @@ namespace smartcoffe.Controllers
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
-        // PUT: api/inventory/{id}
+        // PUT - Solo Administrador
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<InventoryGetDto>> Update(int id, [FromBody] InventoryUpdateDto dto)
         {
             if (dto == null)
@@ -67,8 +71,9 @@ namespace smartcoffe.Controllers
                 : Ok(result);
         }
 
-        // DELETE: api/inventory/{id}
+        // DELETE - Solo Administrador
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int id)
         {
             var success = await _mediator.Send(new DeleteInventoryCommand(id));

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Supplier.Commands.CreateSupplier;
 using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Supplier.Commands.DeleteSupplier;
@@ -11,6 +12,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Acceso base requiere autenticación
     public class SupplierController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,8 +22,9 @@ namespace smartcoffe.Controllers
             _mediator = mediator;
         }
 
-        // POST api/supplier
+        // POST - Solo Administrador
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create([FromBody] SupplierCreateDto dto)
         {
             // Envía el comando al handler de CreateSupplier
@@ -29,8 +32,9 @@ namespace smartcoffe.Controllers
             return Ok(new { message = "Proveedor creado exitosamente" });
         }
 
-        // PUT api/supplier/5
+        // PUT - Solo Administrador
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Update(int id, [FromBody] SupplierUpdateDto dto)
         {
             // Envía el comando al handler de UpdateSupplier
@@ -56,8 +60,9 @@ namespace smartcoffe.Controllers
             return Ok(result);
         }
 
-        // DELETE api/supplier/5
+        // DELETE (SoftDelete) - Solo Administrador
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> SoftDelete(int id)
         {
             // Envía el comando al handler de DeleteSupplier (soft delete)
