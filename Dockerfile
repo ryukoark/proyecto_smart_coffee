@@ -6,18 +6,21 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# 1. Copiar y restaurar dependencias (para aprovechar el cache de Docker)
+# 1. Copiar archivos de la solución y proyectos (para aprovechar el cache)
 
-# Copiar el archivo de solución (.sln) y todos los archivos de proyecto (.csproj).
-# Asegúrate de que el patrón de copia cubra todos los archivos .csproj de tus capas.
+# Copia el archivo de la solución a la raíz del WORKDIR (/src)
 COPY smartcoffe.sln .
-COPY smartcoffe/*.csproj smartcoffe/
-COPY smartcoffe.Application/*.csproj smartcoffe.Application/
-COPY smartcoffe.Domain/*.csproj smartcoffe.Domain/
-COPY smartcoffe.Infrastructure/*.csproj smartcoffe.Infrastructure/
+
+# Copia todos los archivos de proyecto (csproj) a /src en sus respectivas carpetas.
+# Esto asegura que dotnet restore pueda resolver las referencias entre proyectos.
+COPY smartcoffe/smartcoffe.csproj smartcoffe/
+COPY smartcoffe.Application/smartcoffe.Application.csproj smartcoffe.Application/
+COPY smartcoffe.Domain/smartcoffe.Domain.csproj smartcoffe.Domain/
+COPY smartcoffe.Infrastructure/smartcoffe.Infrastructure.csproj smartcoffe.Infrastructure/
 
 # Restaurar dependencias (paquetes NuGet).
-RUN dotnet restore
+# Usamos el archivo de la solución para la restauración
+RUN dotnet restore smartcoffe.sln
 
 # 2. Copiar el resto del código fuente y publicar
 
@@ -28,12 +31,12 @@ COPY . .
 WORKDIR /src/smartcoffe
 
 # Compilar y publicar la aplicación. La salida va a /app/publish
-# Reemplaza 'smartcoffe.csproj' si tu proyecto principal tiene otro nombre.
 RUN dotnet publish "smartcoffe.csproj" -c Release -o /app/publish
 
 
 # ====================================================================
 # ETAPA 2: FINAL (Ejecución de la Aplicación)
+# El resto de la etapa final se mantiene igual
 # ====================================================================
 
 # Utiliza la imagen del Runtime de ASP.NET (es más ligera y solo contiene lo necesario para ejecutar).
@@ -49,5 +52,4 @@ EXPOSE 8080
 # Comando para iniciar la aplicación.
 # Render requiere que configures la variable de entorno ASPNETCORE_URLS=http://+:$PORT
 # para que la aplicación escuche en el puerto que Render le asigne.
-# Reemplaza 'smartcoffe.dll' con el nombre de la DLL principal (el mismo que el .csproj).
 ENTRYPOINT ["dotnet", "smartcoffe.dll"]
