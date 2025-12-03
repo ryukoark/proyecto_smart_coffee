@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.PurchaseHistory.Commands;
-using smartcoffe.Application.PurchaseHistory.Queries;
-using smartcoffe.Application.Features.PurchaseHistory.DTOs;
+using smartcoffe.Application.Features.modulo_compras.PurchaseHistory.Commands;
+using smartcoffe.Application.Features.modulo_compras.PurchaseHistory.DTOs;
+using smartcoffe.Application.Features.modulo_compras.PurchaseHistory.Queries;
 
 namespace smartcoffe.Controllers;
 

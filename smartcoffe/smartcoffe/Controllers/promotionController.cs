@@ -1,12 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Features.Promotion.Commands.CreatePromotion;
-using smartcoffe.Application.Features.Promotion.Commands.DeletePromotion;
-using smartcoffe.Application.Features.Promotion.Commands.UpdatePromotion;
-using smartcoffe.Application.Features.Promotion.DTos;
-using smartcoffe.Application.Features.Promotion.Queries.GetByIdPromotion;
-using smartcoffe.Application.Features.Promotion.Queries.GetPromotion;
-using smartcoffe.Application.Promotion.DTos;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Commands.CreatePromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Commands.DeletePromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Commands.UpdatePromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.DTos;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Queries.GetByIdPromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Queries.GetPromotion;
 
 namespace smartcoffe.Controllers;
 

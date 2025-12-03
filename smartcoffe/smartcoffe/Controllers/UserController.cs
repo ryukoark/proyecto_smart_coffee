@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Features.User.Commands.CreateUser;
-using smartcoffe.Application.Features.User.Commands.DeleteUser;
-using smartcoffe.Application.Features.User.Commands.UpdateUser;
-using smartcoffe.Application.Features.User.DTOs;
-using smartcoffe.Application.Features.User.Queries.GetAllUsersQuery;
-using smartcoffe.Application.Features.User.Queries.GetUserByIdQuery;
+using smartcoffe.Application.Features.modulo_usuarios.User.Commands.CreateUser;
+using smartcoffe.Application.Features.modulo_usuarios.User.Commands.DeleteUser;
+using smartcoffe.Application.Features.modulo_usuarios.User.Commands.UpdateUser;
+using smartcoffe.Application.Features.modulo_usuarios.User.DTOs;
+using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetAllUsersQuery;
+using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetUserByIdQuery;
 
 namespace smartcoffe.API.Controllers // O el namespace que uses para tus controllers
 {

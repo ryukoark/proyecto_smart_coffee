@@ -8,9 +8,13 @@
     
     <ItemGroup>
 
-      <Folder Include="Features\Promotion\Commands\" />
-      <Folder Include="Features\Promotion\Queries\" />
-      <Folder Include="Features\PurchaseHistory\DTOs\" />
+      <Folder Include="Features\modulo_cafeterias_proveedores\" />
+
+      <Folder Include="Features\modulo_compras\" />
+
+      <Folder Include="Features\modulo_productos_inventarios\" />
+
+      <Folder Include="Features\modulo_usuarios\" />
     </ItemGroup>
     
     <ItemGroup>

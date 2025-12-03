@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Features.Category.Commands.CreateCategory;
-using smartcoffe.Application.Features.Category.Commands.DeleteCategory;
-using smartcoffe.Application.Features.Category.Commands.UpdateCategory;
-using smartcoffe.Application.Features.Category.DTOs;
-using smartcoffe.Application.Features.Category.Queries.GetAllCategoriesQuery;
-using smartcoffe.Application.Features.Category.Queries.GetCategoryByIdQuery;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.CreateCategory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.DeleteCategory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.UpdateCategory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.DTOs;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Queries.GetAllCategoriesQuery;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Queries.GetCategoryByIdQuery;
 
 namespace smartcoffe.Controllers
 {

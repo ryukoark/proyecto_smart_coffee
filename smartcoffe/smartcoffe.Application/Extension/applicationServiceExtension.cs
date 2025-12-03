@@ -1,32 +1,32 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using smartcoffe.Application.Features.Category.Commands.CreateCategory;
-using smartcoffe.Application.Features.Category.Commands.DeleteCategory;
-using smartcoffe.Application.Features.Category.Commands.UpdateCategory;
-using smartcoffe.Application.Features.Category.Queries.GetAllCategoriesQuery;
-using smartcoffe.Application.Features.Category.Queries.GetCategoryByIdQuery;
-using smartcoffe.Application.Features.Product.Commands.CreateProduct;
-using smartcoffe.Application.Features.Product.Commands.DeleteProduct;
-using smartcoffe.Application.Features.Product.Commands.UpdateProduct;
-using smartcoffe.Application.Features.Product.Queries.GetProductById;
-using smartcoffe.Application.Features.Promotion.Commands.CreatePromotion;
-using smartcoffe.Application.Features.Promotion.Commands.DeletePromotion;
-using smartcoffe.Application.Features.Promotion.Queries.GetByIdPromotion;
-using smartcoffe.Application.Features.Promotion.Queries.GetPromotion;
-using smartcoffe.Application.Promotion.Commands.UpdatePromotion;
-using smartcoffe.Application.Features.Product.Queries.GetAllProducts; 
-using smartcoffe.Application.Features.Supplier.Commands.CreateSupplier;
-using smartcoffe.Application.Features.Supplier.Commands.DeleteSupplier;
-using smartcoffe.Application.Features.Supplier.Commands.UpdateSupplier;
-using smartcoffe.Application.Features.Supplier.Queries.GetSupplier;
-using smartcoffe.Application.Features.Supplier.Queries.GetByIdSupplier;
-using smartcoffe.Application.Features.User.Commands;
-using smartcoffe.Application.Features.User.Commands.DeleteUser;
-using smartcoffe.Application.Features.User.Commands.UpdateUser;
-using smartcoffe.Application.Features.User.Queries.GetAllUsersQuery;
-using smartcoffe.Application.Features.User.Queries.GetUserByIdQuery;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Supplier.Commands.CreateSupplier;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Supplier.Commands.DeleteSupplier;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Supplier.Commands.UpdateSupplier;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Supplier.Queries.GetAllSuppliers;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Supplier.Queries.GetSupplierById;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Commands.CreatePromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Commands.DeletePromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Commands.UpdatePromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Queries.GetByIdPromotion;
+using smartcoffe.Application.Features.modulo_compras.Promotion.Queries.GetPromotion;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.CreateCategory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.DeleteCategory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Commands.UpdateCategory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Queries.GetAllCategoriesQuery;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Category.Queries.GetCategoryByIdQuery;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.CreateProduct;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.DeleteProduct;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.UpdateProduct;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Queries.GetAllProducts;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Queries.GetProductById;
+using smartcoffe.Application.Features.modulo_usuarios.User.Commands.CreateUser;
+using smartcoffe.Application.Features.modulo_usuarios.User.Commands.DeleteUser;
+using smartcoffe.Application.Features.modulo_usuarios.User.Commands.UpdateUser;
+using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetAllUsersQuery;
+using smartcoffe.Application.Features.modulo_usuarios.User.Queries.GetUserByIdQuery;
+using smartcoffe.Application.Features.modulo_usuarios.User.Commands;
 using smartcoffe.Application.Features.Reports.DailyReservations; // Funcionalidad Hangfire
-
 
 namespace smartcoffe.Application.Extension;
 
@@ -84,8 +84,9 @@ public static class ProjectServicesExtensions
                 
                 // --- Handlers de Reportes (Añadido) ---
                 cfg.RegisterServicesFromAssembly(typeof(GenerateDailyReservationsReportHandler).Assembly);
-
+                
             });
             return services;
         }
 }
+                

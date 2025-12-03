@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.DTOs.Shopping;
-using smartcoffe.Application.Features.Shopping.Commands;
-using smartcoffe.Application.Features.Shopping.Queries;
+using smartcoffe.Application.Features.modulo_compras.Shopping.Commands;
+using smartcoffe.Application.Features.modulo_compras.Shopping.DTOs;
+using smartcoffe.Application.Features.modulo_compras.Shopping.Queries;
 
 namespace smartcoffe.Controllers
 {
