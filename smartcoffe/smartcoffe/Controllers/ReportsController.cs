@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.Reports.InventoryByCafe;
 using smartcoffe.Application.Features.Reports.ProductsExpiring;
@@ -9,6 +10,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/reports")]
+    [Authorize(Roles = "Administrador")] // Solo Administrador puede acceder a Reportes
     public class ReportsController : ControllerBase
     {
         private readonly IMediator _mediator;

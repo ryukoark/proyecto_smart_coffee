@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.CreateProduct;
 using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.DeleteProduct;
@@ -11,6 +12,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize] // Requiere autenticación para todas las acciones en este controlador
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -20,8 +22,9 @@ namespace smartcoffe.Controllers
             _mediator = mediator;
         }
 
-        // POST api/product
+        // POST api/product - Solo Administrador
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Create([FromBody] ProductCreateDto dto)
         {
             // Envía el comando al handler de CreateProduct
@@ -29,8 +32,9 @@ namespace smartcoffe.Controllers
             return Ok(new { message = "Producto creado exitosamente" });
         }
 
-        // PUT api/product/5
+        // PUT api/product/5 - Solo Administrador
         [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Update(int id, [FromBody] ProductUpdateDto dto)
         {
             // --- AÑADIR ESTA LÍNEA ---
@@ -42,7 +46,7 @@ namespace smartcoffe.Controllers
             return Ok(new { message = "Producto actualizado exitosamente" });
         }
 
-        // GET api/product
+        // GET api/product - Accesible por Cliente y Administrador
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -51,7 +55,7 @@ namespace smartcoffe.Controllers
             return Ok(result);
         }
 
-        // GET api/product/5
+        // GET api/product/5 - Accesible por Cliente y Administrador
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -60,8 +64,9 @@ namespace smartcoffe.Controllers
             return Ok(result);
         }
 
-        // DELETE api/product/5
+        // DELETE api/product/5 - Solo Administrador
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> SoftDelete(int id)
         {
             // Envía el comando al handler de DeleteProduct (soft delete)

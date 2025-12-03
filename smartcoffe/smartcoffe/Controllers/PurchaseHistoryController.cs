@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Application.Features.modulo_compras.PurchaseHistory.Commands;
 using smartcoffe.Application.Features.modulo_compras.PurchaseHistory.DTOs;
@@ -8,12 +9,15 @@ namespace smartcoffe.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize] // Acceso base requiere autenticación
 public class PurchaseHistoryController : ControllerBase
 {
     private readonly IMediator _mediator;
     public PurchaseHistoryController(IMediator mediator) => _mediator = mediator;
 
+    // POST - Solo Administrador (o un proceso interno, pero asumimos Admin para CRUD)
     [HttpPost]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Create([FromBody] PurchaseHistoryCreateDto dto, CancellationToken cancellationToken)
     {
         // Envía el comando al handler de CreatePurchaseHistory
@@ -21,7 +25,9 @@ public class PurchaseHistoryController : ControllerBase
         return Ok(new { message = "PurchaseHistory creado exitosamente" });
     }
 
+    // PUT - Solo Administrador
     [HttpPut("{id:int}")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PurchaseHistoryUpdateDto dto, CancellationToken cancellationToken)
     {
         // Use route id as the resource identifier; DTO does not carry Id or Status.
@@ -29,7 +35,9 @@ public class PurchaseHistoryController : ControllerBase
         return Ok(new { message = "PurchaseHistory actualizado exitosamente" });
     }
 
+    // DELETE - Solo Administrador
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Administrador")]
     public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {
         // Envía el comando al handler de DeletePurchaseHistory (soft/hard según implementación)

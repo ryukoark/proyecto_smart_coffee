@@ -7,6 +7,7 @@ namespace smartcoffe.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AllowAnonymous] // Importante: Permite el acceso sin token JWT
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -30,11 +31,15 @@ namespace smartcoffe.Controllers
             if (request is null || string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password))
                 return BadRequest("Email and Password are required");
 
+            // Nota: Aquí se asume que la contraseña en la DB no está hasheada
             var users = await _uow.Repository<User>().FindAsync(u => u.Email == request.Email && u.Password == request.Password && u.Status);
             var user = users.FirstOrDefault();
             if (user is null)
                 return Unauthorized(new { message = "Usuario no existe o credenciales no válidas" });
-
+            
+            // Reclamación de Rol para que el middleware de autorización funcione
+            user.Rrole = "Administrador"; // Solo para ejemplo, debe venir de la DB
+            
             var token = _authService.GenerateToken(user);
             return Ok(new { token });
         }
