@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using smartcoffe.Domain.Interfaces;
 using smartcoffe.Domain.Entities;
 
 namespace smartcoffe.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
