@@ -20,7 +20,8 @@ public partial class Product
     public bool Status { get; set; }
     
     public string? Description { get; set; }
-
+    
+    public string? Img { get; set; }
     public virtual Category? IdCategoryNavigation { get; set; }
 
     public virtual Promotion? IdPromotionNavigation { get; set; }

@@ -23,7 +23,8 @@ namespace smartcoffe.Application.Features.Product.Commands.CreateProduct
                 Price = dto.Price,
                 IdCategory = dto.IdCategory,
                 IdPromotion = dto.IdPromotion,
-                Status = dto.Status // El DTO ya establece 'true' por defecto
+                Status = dto.Status, // El DTO ya establece 'true' por defecto
+                Img = dto.Img,
             };
             
             // Nota: No establecemos el ID. La base de datos (SERIAL) lo generará automáticamente.

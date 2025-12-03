@@ -135,7 +135,7 @@ public partial class SmartcoffeDbContext : DbContext
             entity.Property(e => e.Status)
                 .HasDefaultValue(true)
                 .HasColumnName("status");
-
+            entity.Property(e => e.Img).HasColumnName("img");
             entity.HasOne(d => d.IdCategoryNavigation).WithMany(p => p.Products)
                 .HasForeignKey(d => d.IdCategory)
                 .HasConstraintName("product_id_category_fkey");

@@ -7,5 +7,7 @@ namespace smartcoffe.Application.Features.Product.DTOs
         public string Productname { get; set; } = null!;
         public decimal Price { get; set; }
         public bool Status { get; set; }
+        
+        public string? Img { get; set; }
     }
 }

@@ -30,7 +30,8 @@ namespace smartcoffe.Application.Features.Product.Commands.UpdateProduct
             existingProduct.IdCategory = dto.IdCategory;
             existingProduct.IdPromotion = dto.IdPromotion;
             existingProduct.Status = dto.Status;
-
+            existingProduct.Img = dto.Img;
+            
             _unitOfWork.Repository<Domain.Entities.Product>().Update(existingProduct);
             await _unitOfWork.CompleteAsync();
         }

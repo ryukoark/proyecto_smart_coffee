@@ -11,6 +11,7 @@ namespace smartcoffe.Application.Features.Product.DTOs
         public int? IdPromotion { get; set; }
         public bool Status { get; set; }
         
+        public string? Img { get; set; }
         // Opcional: Podríamos incluir nombres de categoría/promoción si los cargamos,
         // pero por ahora mantenemoslo simple.
         // public string? CategoryName { get; set; }

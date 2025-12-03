@@ -31,7 +31,8 @@ namespace smartcoffe.Application.Features.Product.Queries.GetProductById
                 Price = product.Price,
                 IdCategory = product.IdCategory,
                 IdPromotion = product.IdPromotion,
-                Status = product.Status
+                Status = product.Status,
+                Img = product.Img,
             };
 
             return dto;

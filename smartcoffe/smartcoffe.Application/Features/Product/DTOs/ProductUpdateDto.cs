@@ -9,5 +9,7 @@ namespace smartcoffe.Application.Features.Product.DTOs
         public int? IdCategory { get; set; }
         public int? IdPromotion { get; set; }
         public bool Status { get; set; }
+        
+        public string? Img { get; set; }
     }
 }

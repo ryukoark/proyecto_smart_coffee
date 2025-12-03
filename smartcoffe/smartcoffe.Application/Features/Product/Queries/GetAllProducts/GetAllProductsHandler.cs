@@ -25,7 +25,8 @@ namespace smartcoffe.Application.Features.Product.Queries.GetAllProducts
                     Id = p.Id,
                     Productname = p.Productname,
                     Price = p.Price,
-                    Status = p.Status
+                    Status = p.Status,
+                    Img = p.Img,
                 })
                 .ToList();
 
