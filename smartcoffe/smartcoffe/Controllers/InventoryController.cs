@@ -1,13 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Features.Inventory.Commands.CreateInventory;
-using smartcoffe.Application.Features.Inventory.Commands.DeleteInventory;
-using smartcoffe.Application.Features.Inventory.Commands.UpdateInventory;
-using smartcoffe.Application.Features.Inventory.DTOs;
-using smartcoffe.Application.Features.Inventory.Queries;
-using smartcoffe.Application.Features.Inventory.Queries.GetAllInventoriesQuery;
-using smartcoffe.Application.Features.Inventory.Queries.GetInventoryByIdQuery;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Queries;
 using System.Threading.Tasks;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Commands.CreateInventory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Commands.DeleteInventory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Commands.UpdateInventory;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Dtos;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Queries.GetAllInventoriesQuery;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Inventory.Queries.GetInventoryByIdQuery;
 
 
 namespace smartcoffe.Controllers

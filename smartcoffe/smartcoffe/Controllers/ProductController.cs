@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Features.Product.Commands.CreateProduct;
-using smartcoffe.Application.Features.Product.Commands.DeleteProduct;
-using smartcoffe.Application.Features.Product.Commands.UpdateProduct;
-using smartcoffe.Application.Features.Product.DTOs;
-using smartcoffe.Application.Features.Product.Queries.GetAllProducts;
-using smartcoffe.Application.Features.Product.Queries.GetProductById;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.CreateProduct;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.DeleteProduct;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Commands.UpdateProduct;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.DTOs;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Queries.GetAllProducts;
+using smartcoffe.Application.Features.modulo_productos_inventarios.Product.Queries.GetProductById;
 
 namespace smartcoffe.Controllers
 {

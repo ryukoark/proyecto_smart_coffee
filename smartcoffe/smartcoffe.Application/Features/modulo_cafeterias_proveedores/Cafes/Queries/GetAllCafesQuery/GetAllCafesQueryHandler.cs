@@ -1,0 +1,32 @@
+using MediatR;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Dtos;
+using smartcoffe.Domain.Interfaces;
+
+namespace smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Queries.GetAllCafesQuery
+{
+    public class GetAllCafesQueryHandler : IRequestHandler<modulo_cafeterias_proveedores.Cafes.Queries.GetAllCafesQuery.GetAllCafesQuery, IEnumerable<CafeListDto>>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+
+        public GetAllCafesQueryHandler(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<IEnumerable<CafeListDto>> Handle(modulo_cafeterias_proveedores.Cafes.Queries.GetAllCafesQuery.GetAllCafesQuery request, CancellationToken cancellationToken)
+        {
+            var cafes = await _unitOfWork.Repository<Domain.Entities.Cafe>().GetAllAsync();
+
+            var cafesDto = cafes.Select(c => new CafeListDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Adress = c.Address,
+                Company = c.Company,
+                Status = c.Status ? "Active" : "Inactive"
+            });
+
+            return cafesDto;
+        }
+    }
+}

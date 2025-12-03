@@ -1,11 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using smartcoffe.Application.Features.Cafes.Commands.CreateCafe;
-using smartcoffe.Application.Features.Cafes.Commands.UpdateCafe;
-using smartcoffe.Application.Features.Cafes.Commands.DeleteCafe;
-using smartcoffe.Application.Features.Cafes.Dtos;
-using smartcoffe.Application.Features.Cafes.Queries.GetAllCafesQuery;
-using smartcoffe.Application.Features.Cafes.Queries.GetCafesByIdQuery;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Commands.CreateCafe;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Commands.DeleteCafe;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Commands.UpdateCafe;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Dtos;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Queries.GetAllCafesQuery;
+using smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Queries.GetCafesByIdQuery;
 
 namespace smartcoffe.Controllers
 {
