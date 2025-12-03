@@ -2,6 +2,7 @@ using MediatR;
 using smartcoffe.Application.DTOs.ShoppingDetail;
 using smartcoffe.Application.Features.modulo_compras.ShoppingDetail.DTOs;
 using smartcoffe.Domain.Interfaces;
+using ShoppingDetailGetDto = smartcoffe.Application.Features.modulo_compras.ShoppingDetail.DTOs.ShoppingDetailGetDto;
 
 namespace smartcoffe.Application.Features.modulo_compras.ShoppingDetail.Queries
 {
