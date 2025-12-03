@@ -20,6 +20,11 @@
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+
+        <!-- *** NUEVAS DEPENDENCIAS REQUERIDAS PARA JWT Y AUTORIZACIÓN *** -->
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
+        <!-- ************************************************************ -->
     </ItemGroup>
 
     <ItemGroup>
