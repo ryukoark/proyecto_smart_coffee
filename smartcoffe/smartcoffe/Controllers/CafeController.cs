@@ -21,29 +21,33 @@ namespace smartcoffe.Controllers
         {
             _mediator = mediator;
         }
-        // GET All - Accesible por Cliente y Administrador (Heredado)
+
+        // GET All
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CafeListDto>>> GetAll()
         {
             var cafes = await _mediator.Send(new GetAllCafesQuery());
             return Ok(cafes);
         }
-        // GET By Id - Accesible por Cliente y Administrador (Heredado)
+
+        // GET By Id
         [HttpGet("{id}")]
         public async Task<ActionResult<CafeGetDto>> GetById(int id)
         {
             var cafe = await _mediator.Send(new GetCafeByIdQuery(id));
-
             if (cafe == null)
                 return NotFound($"No se encontró un café con ID {id}");
-
             return Ok(cafe);
         }
+
         // POST - Solo Administrador
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<CafeGetDto>> Create([FromBody] CafeCreateDto dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var created = await _mediator.Send(new CreateCafeCommand(dto));
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
@@ -53,8 +57,10 @@ namespace smartcoffe.Controllers
         [Authorize(Roles = "Administrador")]
         public async Task<ActionResult<CafeGetDto>> Update(int id, [FromBody] CafeUpdateDto dto)
         {
-            dto.Id = id;
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            dto.Id = id;
             var result = await _mediator.Send(new UpdateCafeCommand(dto));
 
             if (result == null)

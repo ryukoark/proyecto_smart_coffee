@@ -5,7 +5,7 @@ namespace smartcoffe.Application.Features.modulo_cafeterias_proveedores.Cafes.Co
 {
     public class CreateCafeCommand : IRequest<CafeGetDto>
     {
-        public CafeCreateDto Dto { get; }
+        public CafeCreateDto Dto { get; set; }
 
         public CreateCafeCommand(CafeCreateDto dto)
         {
