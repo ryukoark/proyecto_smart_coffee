@@ -44,12 +44,7 @@ builder.Services.AddAppServices(builder.Configuration, builder.Environment);
 var app = builder.Build();
 
 // Configuración del Pipeline de Peticiones HTTP.
-if (app.Environment.IsDevelopment())
-{
-    // Habilita Swagger y Swagger UI (desde SwaggerExtensions)
-    app.UseSwaggerDocumentation();
-}
-
+app.UseSwaggerDocumentation();
 app.UseHttpsRedirection();
 
 // 1. CORS Middleware (debe ir antes de UseRouting/MapControllers)
